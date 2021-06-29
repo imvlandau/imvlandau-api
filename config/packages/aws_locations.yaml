@@ -1,0 +1,111 @@
+parameters:
+    locations:
+        -
+            label: "caption.continent.united.states"
+            regions:
+                  -
+                      cca3: "US"
+                      label: "caption.state.north.california"
+                      name: "us-west-1"
+                      locale: "caption.area.us.west"
+                  -
+                      cca3: "US"
+                      label: "caption.state.oregon"
+                      name: "us-west-2"
+                      locale: "caption.area.us.west"
+                  -
+                      cca3: "US"
+                      label: "caption.state.ohio"
+                      name: "us-east-2"
+                      selected: true
+                      locale: "caption.area.us.east"
+                  -
+                      cca3: "US"
+                      label: "caption.state.north.virginia"
+                      name: "us-east-1"
+                      locale: "caption.area.us.east"
+        -
+            label: "caption.continent.europe"
+            regions:
+                  -
+                      cca3: "DE"
+                      label: "caption.city.frankfurt"
+                      name: "eu-central-1"
+                      locale: "caption.country.germany"
+                  -
+                      cca3: "FR"
+                      label: "caption.city.paris"
+                      name: "eu-west-3"
+                      locale: "caption.country.france"
+                  -
+                      cca3: "GBR"
+                      label: "caption.city.london"
+                      name: "eu-west-2"
+                      locale: "caption.country.united.kingdom"
+                  -
+                      cca3: "IE"
+                      label: "caption.city.cork"
+                      name: "eu-west-1"
+                      locale: "caption.country.ireland"
+                  -
+                      cca3: "SE"
+                      label: "caption.city.stockholm"
+                      name: "eu-north-1"
+                      locale: "caption.country.sweden"
+        -
+            label: "caption.continent.asia.pacific"
+            regions:
+                  -
+                      cca3: "HK"
+                      label: "caption.city.hong.kong"
+                      name: "ap-east-1"
+                      locale: "caption.country.china"
+                  -
+                      cca3: "JP"
+                      label: "caption.city.tokyo"
+                      name: "ap-northeast-1"
+                      locale: "caption.country.japan"
+                  -
+                      cca3: "IN"
+                      label: "caption.city.mumbai"
+                      name: "ap-south-1"
+                      locale: "caption.country.india"
+                  -
+                      cca3: "KR"
+                      label: "caption.city.seoul"
+                      name: "ap-northeast-2"
+                      locale: "caption.country.south.korea"
+                  -
+                      cca3: "SG"
+                      label: "caption.city.singapore"
+                      name: "ap-southeast-1"
+                      locale: "caption.country.singapore"
+                  -
+                      cca3: "AU"
+                      label: "caption.city.sydney"
+                      name: "ap-southeast-2"
+                      locale: "caption.continent.australia"
+        -
+            label: "caption.country.canada"
+            regions:
+                  -
+                      cca3: "CA"
+                      label: "caption.city.central.canada"
+                      name: "ca-central-1"
+                      locale: "caption.country.canada"
+        -
+            label: "caption.area.middle.east"
+            regions:
+                  -
+                      cca3: "BH"
+                      label: "caption.city.manama"
+                      name: "me-south-1"
+                      locale: "caption.country.bahrain"
+        -
+            label: "caption.continent.south.america"
+            regions:
+                  -
+                      cca3: "BR"
+                      label: "caption.city.sao.paulo"
+                      name: "sa-east-1"
+                      locale: "caption.country.brazil"

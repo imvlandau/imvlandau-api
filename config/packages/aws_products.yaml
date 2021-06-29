@@ -1,0 +1,21 @@
+parameters:
+    products:
+        t2.micro:
+            diskSpace: '25 GiB'
+            bandwidth: '1000 GiB'
+            selected: true
+        a1.medium:
+            diskSpace: '55 GiB'
+            bandwidth: '2000 GiB'
+        a1.large:
+            diskSpace: '80 GiB'
+            bandwidth: '3000 GiB'
+        a1.xlarge:
+            diskSpace: '160 GiB'
+            bandwidth: '4000 GiB'
+        t3.xlarge:
+            diskSpace: '320 GiB'
+            bandwidth: '5000 GiB'
+        a1.2xlarge:
+            diskSpace: '640 GiB'
+            bandwidth: '6000 GiB'

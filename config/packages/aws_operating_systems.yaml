@@ -1,0 +1,523 @@
+parameters:
+    operatingSystems:
+        -
+            icon: FaUbuntu
+            title: "Ubuntu"
+            selected: true
+            platform: "Linux"
+            amis:
+                -
+                    id: "ami-0632b21df15a61a36"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "us-east-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0f6051c038d0c04b9"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "us-east-2"
+                    owner: 099720109477
+                -
+                    id: "ami-087753f57a5c059f1"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "us-west-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0174b04d52d124b90"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "us-west-2"
+                    owner: 099720109477
+                -
+                    id: "ami-bc98e2cd"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-east-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0f3a1ae05b8a24ac1"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-south-1"
+                    owner: 099720109477
+                -
+                    id: "ami-02e462ff6205da435"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-northeast-2"
+                    owner: 099720109477
+                -
+                    id: "ami-02a504084596d2b4c"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-southeast-1"
+                    owner: 099720109477
+                -
+                    id: "ami-02ab57b0cc8caed06"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-southeast-2"
+                    owner: 099720109477
+                -
+                    id: "ami-05312e804472d00be"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ap-northeast-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0e6c2c0c9f970f25d"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "ca-central-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0ed9094b5d88a4537"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "eu-central-1"
+                    owner: 099720109477
+                -
+                    id: "ami-01281380ec704e988"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "eu-west-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0872c658b326701e5"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "eu-west-2"
+                    owner: 099720109477
+                -
+                    id: "ami-07f36045c5eebcc86"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "eu-west-3"
+                    owner: 099720109477
+                -
+                    id: "ami-073453d0155b0fc4b"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "eu-north-1"
+                    owner: 099720109477
+                -
+                    id: "ami-00074024e9efcf581"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "me-south-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0931296b0de760081"
+                    architecture: "x86_64"
+                    version: "19.10"
+                    region: "sa-east-1"
+                    owner: 099720109477
+                # -
+                #     id: "ami-0ec1cf52e3b2c60a7"
+                #     architecture: "x86_64"
+                #     version: "19.04"
+                #     region: "us-east-2"
+                #     owner: 099720109477
+                -
+                    id: "ami-00a208c7cdba991ea"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "us-east-1"
+                    owner: 099720109477
+                -
+                    id: "ami-059d836af932792c3"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "us-east-2"
+                    owner: 099720109477
+                -
+                    id: "ami-0f42d8c4eb586ccf7"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "us-west-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0a7d051a1c4b54f65"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "us-west-2"
+                    owner: 099720109477
+                -
+                    id: "ami-dc98e2ad"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-east-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0245841fc4b40e22f"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-south-1"
+                    owner: 099720109477
+                -
+                    id: "ami-02b4a5559ce53a570"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-northeast-2"
+                    owner: 099720109477
+                -
+                    id: "ami-07febfdfb4080320e"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-southeast-1"
+                    owner: 099720109477
+                -
+                    id: "ami-04a0f7552cff370ba"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-southeast-2"
+                    owner: 099720109477
+                -
+                    id: "ami-0f6b4f4104d26f399"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ap-northeast-1"
+                    owner: 099720109477
+                -
+                    id: "ami-0972a0d3135cf1fc0"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "ca-central-1"
+                    owner: 099720109477
+                -
+                    id: "ami-09356619876445425"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "eu-central-1"
+                    owner: 099720109477
+                -
+                    id: "ami-04c58523038d79132"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "eu-west-1"
+                    owner: 099720109477
+                -
+                    id: "ami-00622b440d92e55c0"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "eu-west-2"
+                    owner: 099720109477
+                -
+                    id: "ami-0b70d1460d5c7a299"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "eu-west-3"
+                    owner: 099720109477
+                -
+                    id: "ami-005bc7d72deb72a3d"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "eu-north-1"
+                    owner: 099720109477
+                -
+                    id: "ami-026d8603b92fddf7a"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "me-south-1"
+                    owner: 099720109477
+                -
+                    id: "ami-049f5d88d2d436431"
+                    architecture: "x86_64"
+                    version: "18.04 LTS"
+                    selected: true
+                    region: "sa-east-1"
+                    owner: 099720109477
+                # -
+                #     id: "ami-0891395d749676c2e"
+                #     architecture: "x86_64"
+                #     version: "16.04"
+                #     region: "us-east-2"
+                #     owner: 099720109477
+                # -
+                #     id: "ami-032eae14ebea64f91"
+                #     architecture: "x86_64"
+                #     version: "14.04"
+                #     region: "us-east-2"
+                #     owner: 099720109477
+        -
+            icon: DiDebian
+            title: "Debian"
+            platform: "Linux"
+            amis:
+                -
+                    id: "ami-0d207354196b7d94f"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-east-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0b67a0106ec65e744"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-northeast-1"
+                    owner: 379101102735
+                -
+                    id: "ami-025fe29982fe18b59"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-northeast-2"
+                    owner: 379101102735
+                -
+                    id: "ami-0fb8622d675aeda0b"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-south-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0de5371f4557db121"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-southeast-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0339d7f7e2729c1a3"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ap-southeast-2"
+                    owner: 379101102735
+                -
+                    id: "ami-0fac63810894620ac"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "ca-central-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0f1a93497b2e729e5"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "eu-central-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0779d91bf695ed455"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "eu-north-1"
+                    owner: 379101102735
+                -
+                    id: "ami-06d77f4fcb1f698eb"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "eu-west-1"
+                    owner: 379101102735
+                -
+                    id: "ami-099350553aed7e7f7"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "eu-west-2"
+                    owner: 379101102735
+                -
+                    id: "ami-06ec92fd1162f8e8d"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "eu-west-3"
+                    owner: 379101102735
+                -
+                    id: "ami-0b297960b492854da"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "me-south-1"
+                    owner: 379101102735
+                -
+                    id: "ami-07d8bc67381121992"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "sa-east-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0bf9ef4c7f3e35044"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "us-east-1"
+                    owner: 379101102735
+                -
+                    id: "ami-01bb3992977bdc1b7"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "us-east-2"
+                    owner: 379101102735
+                -
+                    id: "ami-0535c290d0fc3ef83"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "us-west-1"
+                    owner: 379101102735
+                -
+                    id: "ami-0b86e06624ac20c42"
+                    architecture: "x86_64"
+                    version: "9.11"
+                    region: "us-west-2"
+                    owner: 379101102735
+                -
+                    id: "ami-5c9de72d"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-east-1"
+                    owner: 136693071363
+                -
+                    id: "ami-089df01b498a97d27"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-northeast-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0d8e8a32d0f4badb3"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-northeast-2"
+                    owner: 136693071363
+                -
+                    id: "ami-0caf1694efa7ed29e"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-south-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0293127e9f23d992a"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-southeast-1"
+                    owner: 136693071363
+                -
+                    id: "ami-05850fe0bf797791c"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ap-southeast-2"
+                    owner: 136693071363
+                -
+                    id: "ami-00a1484736448e060"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "ca-central-1"
+                    owner: 136693071363
+                -
+                    id: "ami-01eb7b0c1119f2550"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "eu-central-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0df5dd9cdb4d0246e"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "eu-north-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0e9cc061cd3259f22"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "eu-west-1"
+                    owner: 136693071363
+                -
+                    id: "ami-042796b8e41bb5fad"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "eu-west-2"
+                    owner: 136693071363
+                -
+                    id: "ami-088796ca618e3533f"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "eu-west-3"
+                    owner: 136693071363
+                -
+                    id: "ami-04340529d06f3db2b"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "me-south-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0994f9ee573d5cadc"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "sa-east-1"
+                    owner: 136693071363
+                -
+                    id: "ami-0dedf6a6502877301"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "us-east-1"
+                    owner: 136693071363
+                -
+                    id: "ami-05d9978d11a05da49"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "us-east-2"
+                    owner: 136693071363
+                -
+                    id: "ami-0d946bbbd372c70b2"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "us-west-1"
+                    owner: 136693071363
+                -
+                    id: "ami-018774bc9055cf127"
+                    architecture: "x86_64"
+                    version: "10.2"
+                    selected: true
+                    region: "us-west-2"
+                    owner: 136693071363
+        -
+            icon: FaCentos
+            title: "CentOS"
+            disabled: true
+            platform: "Linux"
+            amis: []
+        -
+            icon: FaWindows
+            title: "Windows"
+            disabled: true
+            platform: "Windows"
+            amis: []
+        -
+            icon: FaFedora
+            title: "Fedora"
+            disabled: true
+            platform: "Linux"
+            amis: []
+        -
+            icon: FaFreebsd
+            title: "FreeBSD"
+            disabled: true
+            platform: "FreeBSD"
+            amis: []

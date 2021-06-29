@@ -1,0 +1,37 @@
+plugin: aws_ec2
+regions:
+  - us-east-1
+  - us-east-2
+  - us-west-1
+  - us-west-2
+  - ap-east-1
+  - ap-south-1
+  - ap-northeast-3
+  - ap-northeast-2
+  - ap-southeast-1
+  - ap-southeast-2
+  - ap-northeast-1
+  - ca-central-1
+  - eu-west-1
+  - eu-west-2
+  - eu-west-3
+  - eu-north-1
+  - eu-central-1
+  - me-south-1
+  - sa-east-1
+keyed_groups:
+  # add hosts to tag_Name_value groups for each aws_ec2 host's tags.Name variable
+  - key: tags.Name
+    prefix: tag_Name_
+    separator: ""
+groups:
+  # add hosts to the group development if any of the dictionary's keys or values is the word 'devel'
+  development: "'devel' in (tags|list)"
+compose:
+  # set the ansible_host variable to connect with the private IP address without changing the hostname
+  ansible_host: ip_address
+# cache: yes
+# cache_plugin: jsonfile
+# cache_timeout: 7200
+# cache_connection: /tmp/aws_inventory
+# cache_prefix: aws_ec2
