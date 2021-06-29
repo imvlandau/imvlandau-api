@@ -36,30 +36,35 @@ class Attendees extends EntityBase
     private $mobile;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true, options={"unsigned":true, "default":0})
      */
     private $amountCompanions;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $companion_1;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $companion_2;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $companion_3;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $companion_4;
 
+
+    public function __construct()
+    {
+        $this->amountCompanions = 0;
+    }
 
     public function getId(): ?int
     {
