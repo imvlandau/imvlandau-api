@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Server;
+use App\Entity\Attendees;
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
-use App\Repository\ServerRepository;
+use App\Repository\AttendeesRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,11 +16,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Controller to manage servers
+ * Controller to manage attendees
  *
  * @Route("/api")
  */
-class ServerController extends FOSRestController
+class AttendeesController extends FOSRestController
 {
 
     public function __construct(
@@ -30,32 +30,39 @@ class ServerController extends FOSRestController
     }
 
     /**
-     * Fetch servers
+     * Fetch attendees
      *
-     * @Rest\Get("/get/servers", name="api_servers_get")
+     * @Rest\Get("/get/attendees", name="api_attendees_get")
      *
      * @return Response
      */
-    public function fetch(ServerRepository $serverRepository)
+    public function fetch(AttendeesRepository $attendeesRepository)
     {
-        return $serverRepository->findAll();
+        return $attendeesRepository->findAll();
     }
 
     /**
-     * Deploy server
+     * Deploy attendees
      *
-     * @Rest\Post("/server/deploy", name="api_server_deploy")
+     * @Rest\Post("/attendees/create", name="api_attendees_create")
      *
      * @return Response
      */
     public function deploy(Request $request, ValidatorInterface $validator)
     {
         try {
-            $server = new Server();
-            $server->setName($pmb_label);
+            $attendees = new Attendees();
+            $attendees->setName("Test");
+            $attendees->setEmail("Test");
+            $attendees->setMobile("Test");
+            $attendees->setAmountCompanions(4);
+            $attendees->setCompanion_1("Test_1");
+            $attendees->setCompanion_2("Test_2");
+            $attendees->setCompanion_3("Test_3");
+            $attendees->setCompanion_4("Test_4");
 
             $errors = [];
-            $constraintValidator = $validator->validate($server, null, ['create']);
+            $constraintValidator = $validator->validate($attendees, null, ['create']);
             if (count($constraintValidator) > 0) {
                 foreach ($constraintValidator->getIterator() as $error) {
                     $errors[] = $this->translator->trans($error->getMessage());
@@ -65,7 +72,7 @@ class ServerController extends FOSRestController
 
             // save user provided public key
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($server);
+            $entityManager->persist($attendees);
             $entityManager->flush();
 
             return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
@@ -75,16 +82,16 @@ class ServerController extends FOSRestController
     }
 
     /**
-     * Delete server entry
+     * Delete attendees entry
      *
-     * @Rest\Delete("/{id}", name="api_server_delete")
+     * @Rest\Delete("/{id}", name="api_attendees_delete")
      *
      * @return Response
      */
-    public function delete(Request $request, Server $server)
+    public function delete(Request $request, Attendees $attendees)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($server);
+        $entityManager->remove($attendees);
         $entityManager->flush();
     }
 }

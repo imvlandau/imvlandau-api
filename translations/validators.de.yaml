@@ -1,4 +1,3 @@
-server.name.not_blank: Sie müssen einen Namen für Ihren Server eingeben.
-server.name.minMessage: Der Name für Ihr Server muss mindestens {{ limit }} Zeichen lang sein.
-server.name.maxMessage: Der Name für Ihr Server darf maximal {{ limit }} Zeichen lang sein.
-server.name.regex: Der Name für Ihr Server darf nur aus einer Kombination von Buchstaben, Zahlen, Bindestrichen (-) bestehen. Leerzeichen sind nicht erlaubt.
+attendees.name.not_blank: Sie müssen ihren Namen eingeben.
+attendees.name.minMessage: Ihr Name muss mindestens {{ limit }} Zeichen lang sein.
+attendees.name.maxMessage: Ihr Name darf maximal {{ limit }} Zeichen lang sein.

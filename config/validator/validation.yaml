@@ -1,17 +1,12 @@
-# App\Entity\Server:
-#     properties:
-#         name:
-#             - NotBlank:
-#                 message: 'server.name.not_blank'
-#                 groups: create
-#             - Length:
-#                 minMessage: 'server.name.minMessage'
-#                 maxMessage: 'server.name.maxMessage'
-#                 min: 3
-#                 max: 50
-#                 groups: create
-#             - Regex:
-#                 pattern: '/^[a-z\-0-9]+$/i'
-#                 htmlPattern: '^[a-zA-Z\-0-9]+$'
-#                 message: 'server.name.regex'
-#                 groups: create
+App\Entity\Attendees:
+    properties:
+        name:
+            - NotBlank:
+                message: 'attendees.name.not_blank'
+                groups: create
+            - Length:
+                minMessage: 'attendees.name.minMessage'
+                maxMessage: 'attendees.name.maxMessage'
+                min: 2
+                max: 50
+                groups: create

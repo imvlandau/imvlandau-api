@@ -1,4 +1,3 @@
-server.name.not_blank: You must enter a name for your server.
-server.name.minMessage: Your server name must be at least {{ limit }} characters long.
-server.name.maxMessage: Your server name cannot be longer than {{ limit }} characters.
-server.name.regex: The server name must be alphanumeric and may contain dash (-). Whitespace characters are not allowed.
+attendees.name.not_blank: You must enter your name.
+attendees.name.minMessage: Your name must be at least {{ limit }} characters long.
+attendees.name.maxMessage: Your name cannot be longer than {{ limit }} characters.
