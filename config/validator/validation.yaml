@@ -1,57 +1,57 @@
-App\Entity\StartupScript:
-    properties:
-        name:
-            - NotBlank:
-                message: 'startup_script.name.not_blank'
-                groups: create
-            - Length:
-                minMessage: 'startup_script.name.minMessage'
-                maxMessage: 'startup_script.name.maxMessage'
-                min: 3
-                max: 50
-                groups: create
-            - Regex:
-                pattern: '/^[a-z\.\-_0-9]+$/i'
-                htmlPattern: '^[a-zA-Z\.\-_0-9]+$'
-                message: 'startup_script.name.regex'
-                groups: create
-        content:
-            - NotBlank:
-                message: 'startup_script.content.not_blank'
-                groups: create
-App\Entity\KeyPair:
-    properties:
-        name:
-            - NotBlank:
-                message: 'key_pair.name.not_blank'
-                groups: create
-            - Length:
-                minMessage: 'key_pair.name.minMessage'
-                maxMessage: 'key_pair.name.maxMessage'
-                min: 3
-                max: 50
-                groups: create
-            - Regex:
-                pattern: '/^[a-z\-_0-9]+$/i'
-                htmlPattern: '^[a-zA-Z\-_0-9]+$'
-                message: 'key_pair.name.regex'
-                groups: create
-        publicKey:
-            - NotBlank: { message: 'key_pair.publicKey.not_blank' }
-App\Entity\Server:
-    properties:
-        name:
-            - NotBlank:
-                message: 'server.name.not_blank'
-                groups: create
-            - Length:
-                minMessage: 'server.name.minMessage'
-                maxMessage: 'server.name.maxMessage'
-                min: 3
-                max: 50
-                groups: create
-            - Regex:
-                pattern: '/^[a-z\-0-9]+$/i'
-                htmlPattern: '^[a-zA-Z\-0-9]+$'
-                message: 'server.name.regex'
-                groups: create
+# App\Entity\StartupScript:
+#     properties:
+#         name:
+#             - NotBlank:
+#                 message: 'startup_script.name.not_blank'
+#                 groups: create
+#             - Length:
+#                 minMessage: 'startup_script.name.minMessage'
+#                 maxMessage: 'startup_script.name.maxMessage'
+#                 min: 3
+#                 max: 50
+#                 groups: create
+#             - Regex:
+#                 pattern: '/^[a-z\.\-_0-9]+$/i'
+#                 htmlPattern: '^[a-zA-Z\.\-_0-9]+$'
+#                 message: 'startup_script.name.regex'
+#                 groups: create
+#         content:
+#             - NotBlank:
+#                 message: 'startup_script.content.not_blank'
+#                 groups: create
+# App\Entity\KeyPair:
+#     properties:
+#         name:
+#             - NotBlank:
+#                 message: 'key_pair.name.not_blank'
+#                 groups: create
+#             - Length:
+#                 minMessage: 'key_pair.name.minMessage'
+#                 maxMessage: 'key_pair.name.maxMessage'
+#                 min: 3
+#                 max: 50
+#                 groups: create
+#             - Regex:
+#                 pattern: '/^[a-z\-_0-9]+$/i'
+#                 htmlPattern: '^[a-zA-Z\-_0-9]+$'
+#                 message: 'key_pair.name.regex'
+#                 groups: create
+#         publicKey:
+#             - NotBlank: { message: 'key_pair.publicKey.not_blank' }
+# App\Entity\Server:
+#     properties:
+#         name:
+#             - NotBlank:
+#                 message: 'server.name.not_blank'
+#                 groups: create
+#             - Length:
+#                 minMessage: 'server.name.minMessage'
+#                 maxMessage: 'server.name.maxMessage'
+#                 min: 3
+#                 max: 50
+#                 groups: create
+#             - Regex:
+#                 pattern: '/^[a-z\-0-9]+$/i'
+#                 htmlPattern: '^[a-zA-Z\-0-9]+$'
+#                 message: 'server.name.regex'
+#                 groups: create
