@@ -1,13 +1,3 @@
-startup_script.name.not_blank: Sie müssen einen Namen für Ihr Systemstart-Script eingeben.
-startup_script.name.minMessage: Der Name für Ihr Systemstart-Script muss mindestens {{ limit }} Zeichen lang sein.
-startup_script.name.maxMessage: Der Name für Ihr Systemstart-Script darf maximal {{ limit }} Zeichen lang sein.
-startup_script.name.regex: Der Name für Ihr Systemstart-Script darf nur aus einer Kombination von Buchstaben, Zahlen, Bindestrichen ( - ) Unterstrichen ( _ ) und Punkten ( . ) bestehen. Leerzeichen sind nicht erlaubt.
-startup_script.content.not_blank: Ihr Systemstart-Script darf nicht leer sein und sollte ausführbare Anweisungen enthalten.
-key_pair.name.not_blank: Sie müssen einen Namen für Ihr Schlüsselpaar eingeben.
-key_pair.name.minMessage: Der Name für Ihr Schlüsselpaar muss mindestens {{ limit }} Zeichen lang sein.
-key_pair.name.maxMessage: Der Name für Ihr Schlüsselpaar darf maximal {{ limit }} Zeichen lang sein.
-key_pair.name.regex: Der Name für Ihr Schlüsselpaar darf nur aus einer Kombination von Buchstaben, Zahlen, Bindestrichen (-) und Unterstrichen ( _ ) bestehen. Leerzeichen sind nicht erlaubt.
-key_pair.publicKey.not_blank: Sie müssen einen Wert für Ihren öffentlichen Schlüssel eingeben.
 server.name.not_blank: Sie müssen einen Namen für Ihren Server eingeben.
 server.name.minMessage: Der Name für Ihr Server muss mindestens {{ limit }} Zeichen lang sein.
 server.name.maxMessage: Der Name für Ihr Server darf maximal {{ limit }} Zeichen lang sein.

@@ -36,13 +36,8 @@ services:
     sensio_framework_extra.view.listener:
         alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
 
-    App\Controller\ApiEditorController:
-        arguments:
-            $exclude: '%exclude%'
-            $boxTreeMaxDepth: '%boxTreeMaxDepth%'
-            $uploadMaxNumberOfFiles: '%uploadMaxNumberOfFiles%'
-            $uploadMaxFileSize: '%uploadMaxFileSize%'
-            $uploadAcceptFileTypes: '%uploadAcceptFileTypes%'
-            $locations: '%locations%'
-            $operatingSystems: '%operatingSystems%'
-            $products: '%products%'
+    # App\Controller\ApiEditorController:
+    #     arguments:
+    #         $uploadMaxNumberOfFiles: '%uploadMaxNumberOfFiles%'
+    #         $uploadMaxFileSize: '%uploadMaxFileSize%'
+    #         $uploadAcceptFileTypes: '%uploadAcceptFileTypes%'

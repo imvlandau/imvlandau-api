@@ -1,13 +1,3 @@
-startup_script.name.not_blank: You must enter a name for your startup script.
-startup_script.name.minMessage: Your startup script name must be at least {{ limit }} characters long.
-startup_script.name.maxMessage: Your startup script name cannot be longer than {{ limit }} characters.
-startup_script.name.regex: The startup script name must be alphanumeric and may contain dash ( - ) underscore ( _ ) and dots ( . ) - whitespace characters are not allowed.
-startup_script.content.not_blank: You must provide some instructions for your startup script.
-key_pair.name.not_blank: You must enter a name for your key pair.
-key_pair.name.minMessage: Your key pair name must be at least {{ limit }} characters long.
-key_pair.name.maxMessage: Your key pair name cannot be longer than {{ limit }} characters.
-key_pair.name.regex: The key pair name must be alphanumeric and may contain dash (-) and underscore ( _ ). Whitespace characters are not allowed.
-key_pair.publicKey.not_blank: You must enter a public part for your key pair.
 server.name.not_blank: You must enter a name for your server.
 server.name.minMessage: Your server name must be at least {{ limit }} characters long.
 server.name.maxMessage: Your server name cannot be longer than {{ limit }} characters.
