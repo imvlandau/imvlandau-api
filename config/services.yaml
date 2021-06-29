@@ -6,8 +6,6 @@
 parameters:
     locale: en
     supported_locales: ['en', 'de', 'ru']
-    exclude: /node_modules|material-ui-icons/
-    boxTreeMaxDepth: 1
     uploadMaxNumberOfFiles: 52
     uploadMaxFileSize: 8388608
     uploadAcceptFileTypes: /.*$/i
