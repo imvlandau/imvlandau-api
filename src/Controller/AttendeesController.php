@@ -48,18 +48,17 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function deploy(Request $request, ValidatorInterface $validator)
+    public function create(Request $request, ValidatorInterface $validator)
     {
         try {
             $attendees = new Attendees();
-            $attendees->setName("Test");
-            $attendees->setEmail("Test");
-            $attendees->setMobile("Test");
-            $attendees->setAmountCompanions(4);
-            $attendees->setCompanion_1("Test_1");
-            $attendees->setCompanion_2("Test_2");
-            $attendees->setCompanion_3("Test_3");
-            $attendees->setCompanion_4("Test_4");
+            $attendees->setName($request->request->get('name'));
+            $attendees->setEmail($request->request->get('email'));
+            $attendees->setMobile($request->request->get('mobile'));
+            $attendees->setCompanion_1($request->request->get('companion_1'));
+            $attendees->setCompanion_2($request->request->get('companion_2'));
+            $attendees->setCompanion_3($request->request->get('companion_3'));
+            $attendees->setCompanion_4($request->request->get('companion_4'));
 
             $errors = [];
             $constraintValidator = $validator->validate($attendees, null, ['create']);
