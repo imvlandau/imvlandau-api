@@ -36,11 +36,6 @@ class Attendees extends EntityBase
     private $mobile;
 
     /**
-     * @ORM\Column(type="integer", nullable=true, options={"unsigned":true, "default":0})
-     */
-    private $amountCompanions;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $companion_1;
@@ -60,11 +55,6 @@ class Attendees extends EntityBase
      */
     private $companion_4;
 
-
-    public function __construct()
-    {
-        $this->amountCompanions = 0;
-    }
 
     public function getId(): ?int
     {
@@ -103,18 +93,6 @@ class Attendees extends EntityBase
     public function setMobile(string $mobile): self
     {
         $this->mobile = $mobile;
-
-        return $this;
-    }
-
-    public function getAmountCompanions(): ?integer
-    {
-        return $this->amountCompanions;
-    }
-
-    public function setAmountCompanions(integer $amountCompanions): self
-    {
-        $this->amountCompanions = $amountCompanions;
 
         return $this;
     }
