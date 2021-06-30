@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+// use Endroid\QrCode\Builder\BuilderInterface;
+// use Endroid\QrCodeBundle\Response\QrCodeResponse;
 
 /**
  * Controller to manage attendees
@@ -22,11 +24,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AttendeesController extends FOSRestController
 {
-
     public function __construct(
         TranslatorInterface $translator
+        // , BuilderInterface $customQrCodeBuilder
     ) {
         $this->translator = $translator;
+        // $this->customQrCodeBuilder = $customQrCodeBuilder;
     }
 
     /**
@@ -74,7 +77,16 @@ class AttendeesController extends FOSRestController
             $entityManager->persist($attendees);
             $entityManager->flush();
 
-            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+  // $result = $this->customQrCodeBuilder
+  //         ->size(400)
+  //         ->margin(20)
+  //         ->build();
+  // $response = new QrCodeResponse($result);
+  // return $response;
+
+  return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+
+
         } catch (\Throwable $e) {
             throw new ApiProblemException(new ApiProblem(500, $e->getMessage()));
         }

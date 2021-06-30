@@ -2,5 +2,7 @@ endroid_qr_code:
     writer: 'png'
     size: 300
     margin: 10
-    error_correction_level: 'low'
+    error_correction_level: 'low' # 'low', 'medium', 'quartile', or 'high'
     validate_result: false
+    logo_path: '%kernel.project_dir%/public/moon.png'
+    logo_height: 50
