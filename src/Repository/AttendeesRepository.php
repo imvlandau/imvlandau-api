@@ -58,7 +58,16 @@ class AttendeesRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
+            // ->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
         ;
+
+        // $entityManager = $this->getEntityManager();
+        // $query = $entityManager->createQuery(
+        //   'SELECT att.email
+        //   FROM App\Entity\Attendees att
+        //   WHERE att.email = :email'
+        // )->setParameter('email', $value);
+        // return $query->getOneOrNullResult();
     }
     */
 }
