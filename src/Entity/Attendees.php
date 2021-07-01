@@ -33,9 +33,9 @@ class Attendees extends EntityBase
     private $email;
 
     /**
-     * @ORM\Column(name="token", type="integer", length=5, nullable=false, unique=true, options={"default" = 0})
+     * @ORM\Column(name="token", type="integer", nullable=false, unique=true)
      */
-    private $token = 0;
+    private $token;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
