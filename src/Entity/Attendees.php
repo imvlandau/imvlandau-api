@@ -36,24 +36,24 @@ class Attendees extends EntityBase
     private $mobile;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(name="companion_1", type="string", length=50, nullable=true)
      */
-    private $companion_1;
+    private $companion1;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(name="companion_2", type="string", length=50, nullable=true)
      */
-    private $companion_2;
+    private $companion2;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(name="companion_3", type="string", length=50, nullable=true)
      */
-    private $companion_3;
+    private $companion3;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(name="companion_4", type="string", length=50, nullable=true)
      */
-    private $companion_4;
+    private $companion4;
 
 
     public function getId(): ?int
@@ -97,50 +97,50 @@ class Attendees extends EntityBase
         return $this;
     }
 
-    public function getCompanion_1(): ?string
+    public function getCompanion1(): ?string
     {
-        return $this->companion_1;
+        return $this->companion1;
     }
 
-    public function setCompanion_1(string $companion_1): self
+    public function setCompanion1(string $companion1): self
     {
-        $this->companion_1 = $companion_1;
+        $this->companion1 = $companion1;
 
         return $this;
     }
 
-    public function getCompanion_2(): ?string
+    public function getCompanion2(): ?string
     {
-        return $this->companion_2;
+        return $this->companion2;
     }
 
-    public function setCompanion_2(string $companion_2): self
+    public function setCompanion2(string $companion2): self
     {
-        $this->companion_2 = $companion_2;
+        $this->companion2 = $companion2;
 
         return $this;
     }
 
-    public function getCompanion_3(): ?string
+    public function getCompanion3(): ?string
     {
-        return $this->companion_3;
+        return $this->companion3;
     }
 
-    public function setCompanion_3(string $companion_3): self
+    public function setCompanion3(string $companion3): self
     {
-        $this->companion_3 = $companion_3;
+        $this->companion3 = $companion3;
 
         return $this;
     }
 
-    public function getCompanion_4(): ?string
+    public function getCompanion4(): ?string
     {
-        return $this->companion_4;
+        return $this->companion4;
     }
 
-    public function setCompanion_4(string $companion_4): self
+    public function setCompanion4(string $companion4): self
     {
-        $this->companion_4 = $companion_4;
+        $this->companion4 = $companion4;
 
         return $this;
     }
