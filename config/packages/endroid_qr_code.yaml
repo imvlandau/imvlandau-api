@@ -1,8 +1,13 @@
 endroid_qr_code:
-    writer: 'png'
-    size: 300
-    margin: 10
-    error_correction_level: 'low' # 'low', 'medium', 'quartile', or 'high'
-    validate_result: false
-    logo_path: '%kernel.project_dir%/public/moon.png'
-    logo_height: 50
+    default:
+        writer: Endroid\QrCode\Writer\PngWriter
+        size: 640
+        margin: 10
+        encoding: 'UTF-8'
+        errorCorrectionLevel: 'low'
+        roundBlockSizeMode: 'margin'
+        validateResult: false
+    custom:
+        logoPath: '%kernel.project_dir%/public/moon.png'
+        logoResizeToWidth: 150
+        errorCorrectionLevel: 'high' # 'low', 'medium', 'quartile', or 'high'
