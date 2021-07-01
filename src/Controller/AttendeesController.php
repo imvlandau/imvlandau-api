@@ -63,10 +63,10 @@ class AttendeesController extends FOSRestController
             $email = $request->request->get('email');
             $mobile = $request->request->get('mobile');
             $companions = 0;
-            $companion1 = $request->request->get('companion_1');
-            $companion2 = $request->request->get('companion_2');
-            $companion3 = $request->request->get('companion_3');
-            $companion4 = $request->request->get('companion_4');
+            $companion1 = $request->request->get('companion1');
+            $companion2 = $request->request->get('companion2');
+            $companion3 = $request->request->get('companion3');
+            $companion4 = $request->request->get('companion4');
 
 return $this->randomStringGenerator->generate(5);
 
