@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Attendees;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Attendees|null find($id, $lockMode = null, $lockVersion = null)
