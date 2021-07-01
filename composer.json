@@ -9,7 +9,7 @@
         "aws/aws-sdk-php-symfony": "~2.0",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.0",
-        "endroid/qr-code-bundle": "^3.4",
+        "endroid/qr-code-bundle": "4.0",
         "friendsofsymfony/rest-bundle": "^2.5",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.5",
@@ -34,6 +34,7 @@
         "symfony/yaml": "^4.2"
     },
     "config": {
+        "platform-check": false,
         "preferred-install": {
             "*": "dist"
         },
