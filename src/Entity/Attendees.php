@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Entity for attendees
@@ -26,9 +27,15 @@ class Attendees extends EntityBase
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
+     * @Assert\Email
      */
     private $email;
+
+    /**
+     * @ORM\Column(name="token", type="integer", length=5, nullable=false, unique=true, options={"default" = 0})
+     */
+    private $token = 0;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
@@ -81,6 +88,18 @@ class Attendees extends EntityBase
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getToken(): ?int
+    {
+        return $this->token;
+    }
+
+    public function setToken(int $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }
