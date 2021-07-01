@@ -28,7 +28,7 @@ class AttendeesRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select('att.id, att.name, att.email, att.mobile, att.amountCompanions, att.companion_1, att.companion_2, att.companion_3, att.companion_4')
+        $qb->select('att')
             ->from('App\Entity\Attendees', 'att');
         return $qb->getQuery()->getResult();
     }
