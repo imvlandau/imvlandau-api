@@ -1,3 +1,7 @@
 attendees.name.not_blank: You must enter your name.
 attendees.name.minMessage: Your name must be at least {{ limit }} characters long.
 attendees.name.maxMessage: Your name cannot be longer than {{ limit }} characters.
+attendees.email.invalid: The email {{ value }}   is not a valid email.
+attendees.email.not_blank: You must enter your E-Mail.
+attendees.email.unique: This E-Mail {{ value }} is already registered.
+attendees.mobile.not_blank: You must enter your Whatsapp number.

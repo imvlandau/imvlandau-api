@@ -4,9 +4,29 @@ App\Entity\Attendees:
             - NotBlank:
                 message: 'attendees.name.not_blank'
                 groups: create
+                normalizer: trim
             - Length:
                 minMessage: 'attendees.name.minMessage'
                 maxMessage: 'attendees.name.maxMessage'
                 min: 2
                 max: 50
                 groups: create
+        email:
+            - Email:
+                message: 'attendees.email.invalid'
+                groups: create
+            - NotBlank:
+                message: 'attendees.email.not_blank'
+                groups: create
+                normalizer: trim
+        mobile:
+            - NotBlank:
+                message: 'attendees.mobile.not_blank'
+                groups: create
+                normalizer: trim
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            message: 'attendees.email.unique'
+            fields: email
+            groups: create
