@@ -61,23 +61,13 @@ class AttendeesController extends FOSRestController
         try {
             $name = $request->request->get('name');
             $email = $request->request->get('email');
+            $token = $this->randomStringGenerator->generate(5);
             $mobile = $request->request->get('mobile');
             $companions = 0;
             $companion1 = $request->request->get('companion1');
             $companion2 = $request->request->get('companion2');
             $companion3 = $request->request->get('companion3');
             $companion4 = $request->request->get('companion4');
-
-return $this->randomStringGenerator->generate(5);
-
-$attendeesRepository = $this->getDoctrine()->getRepository(Attendees::class);
-$ret = $attendeesRepository->findOneByEmailHash("989abcfa23e291f53caaaf059c81a8e0");
-return $ret;
-echo "<pre>" . print_r($ret, 1) . "</pre>";
-exit;
-// return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
-
-// return $attendeesRepository->findAll();
 
             if (!empty($companion1)){
               $companions++;
@@ -95,41 +85,39 @@ exit;
             $attendees = new Attendees();
             $attendees->setName($name);
             $attendees->setEmail($email);
+            $attendees->setToken($token);
             $attendees->setMobile($mobile);
             $attendees->setCompanion1($companion1);
             $attendees->setCompanion2($companion2);
             $attendees->setCompanion3($companion3);
             $attendees->setCompanion4($companion4);
 
-//             $errors = [];
-//             $constraintValidator = $validator->validate($attendees, null, ['create']);
-//             if (count($constraintValidator) > 0) {
-//                 foreach ($constraintValidator->getIterator() as $error) {
-//                     $errors[] = $this->translator->trans($error->getMessage());
-//                 }
-//                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
-//             }
-//
-//             // save user provided public key
-//             $entityManager = $this->getDoctrine()->getManager();
-//             $entityManager->persist($attendees);
-//             $entityManager->flush();
-//
-// $label = "";
-// if (!empty($companions)){
-//   $label = "+ $companions";
-// }
-// $result = $this->customQrCodeBuilder
-//   ->data("$name $label")
-//   ->labelText("$name $label")
-//   ->labelFont(new NotoSans(13))
-//   ->labelAlignment(new LabelAlignmentCenter())
-//   ->build();
-// $response = new QrCodeResponse($result);
-// return $response;
+            $errors = [];
+            $constraintValidator = $validator->validate($attendees, null, ['create']);
+            if (count($constraintValidator) > 0) {
+                foreach ($constraintValidator->getIterator() as $error) {
+                    $errors[] = $this->translator->trans($error->getMessage());
+                }
+                return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+            }
 
-return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+            // save user provided public key
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($attendees);
+            $entityManager->flush();
 
+            $label = "";
+            if (!empty($companions)){
+              $label = "+ $companions";
+            }
+            $result = $this->customQrCodeBuilder
+              ->data($token)
+              ->labelText($token . " - " . substr($name, 0, 19) . " " . $label)
+              ->labelFont(new NotoSans(13))
+              ->labelAlignment(new LabelAlignmentCenter())
+              ->build();
+            $response = new QrCodeResponse($result);
+            return $response;
 
         } catch (\Throwable $e) {
             throw new ApiProblemException(new ApiProblem(500, $e->getMessage()));
