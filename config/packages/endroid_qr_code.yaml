@@ -7,6 +7,3 @@ endroid_qr_code:
         roundBlockSizeMode: 'margin' # 'low', 'medium', 'quartile', or 'high'
         errorCorrectionLevel: 'low'
         validateResult: false
-    custom:
-        logoPath: '%kernel.project_dir%/public/moon.png'
-        logoResizeToWidth: 150
