@@ -96,7 +96,7 @@ class AttendeesController extends FOSRestController
             $constraintValidator = $validator->validate($attendees, null, ['create']);
             if (count($constraintValidator) > 0) {
                 foreach ($constraintValidator->getIterator() as $error) {
-                    $errors[] = $this->translator->trans($error->getMessage());
+                    $errors[$error->getMessageTemplate()] = $this->translator->trans($error->getMessage());
                 }
                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
             }
