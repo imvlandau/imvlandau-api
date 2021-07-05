@@ -55,6 +55,26 @@ class AttendeesController extends FOSRestController
     }
 
     /**
+     * Fetch attendees
+     *
+     * @Rest\Get("/attendees/validate/{token}", name="api_attendees_validate")
+     *
+     * @return Response
+     */
+    public function validate(AttendeesRepository $attendeesRepository, Attendees $attendees)
+    {
+      if ($attendees->getHasBeenScanned()) {
+        return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
+      } else {
+        $attendees->setHasBeenScanned(true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($attendees);
+        $entityManager->flush();
+        return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
+      }
+    }
+
+    /**
      * Deploy attendees
      *
      * @Rest\Post("/attendees/create", name="api_attendees_create")
