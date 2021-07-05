@@ -6,6 +6,7 @@ use App\Entity\Attendees;
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
 use App\Repository\AttendeesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Utils\RandomStringGenerator;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -35,12 +36,14 @@ class AttendeesController extends FOSRestController
         TranslatorInterface $translator,
         RandomStringGenerator $randomStringGenerator,
         BuilderInterface $customQrCodeBuilder,
-        $randomStringGeneratorAlphabet = null
+        $randomStringGeneratorAlphabet = null,
+        $maxAttendeesCount = 0
     ) {
         $this->translator = $translator;
         $this->customQrCodeBuilder = $customQrCodeBuilder;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->randomStringGenerator->setAlphabet($randomStringGeneratorAlphabet);
+        $this->maxAttendeesCount = $maxAttendeesCount;
     }
 
     /**
@@ -95,6 +98,8 @@ class AttendeesController extends FOSRestController
     public function create(
       Request $request,
       ValidatorInterface $validator,
+      EntityManagerInterface $entityManager,
+      AttendeesRepository $attendeesRepository,
       MailerInterface $mailer
     ) {
         try {
@@ -119,6 +124,14 @@ class AttendeesController extends FOSRestController
             }
             if (!empty($companion4)){
               $companions++;
+            }
+
+            $count = $attendeesRepository->countAttendees();
+            if ($count + 1 + $companions > $this->maxAttendeesCount){
+              $error = [
+                  "attendees.max.attendees.reached" => $this->translator->trans("attendees.max.attendees.reached"),
+              ];
+              return new JsonResponse($error, Response::HTTP_BAD_REQUEST);
             }
 
             $attendees = new Attendees();
@@ -172,7 +185,6 @@ class AttendeesController extends FOSRestController
               return new JsonResponse($e, Response::HTTP_BAD_REQUEST);
             }
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attendees);
             $entityManager->flush();
 

@@ -33,6 +33,37 @@ class AttendeesRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * Find all attendees.
+     *
+     * @return array|null The entity instances or NULL if the entities can not be found.
+     */
+    public function countAttendees()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('att')
+            ->from('App\Entity\Attendees', 'att');
+        $all = $qb->getQuery()->getResult();
+        $counter = 0;
+        foreach ($all as $key => $attendees) {
+            $counter++;
+            if (!empty($attendees->getCompanion1())) {
+                $counter++;
+            }
+            if (!empty($attendees->getCompanion2())) {
+                $counter++;
+            }
+            if (!empty($attendees->getCompanion3())) {
+                $counter++;
+            }
+            if (!empty($attendees->getCompanion4())) {
+                $counter++;
+            }
+        }
+        return $counter;
+    }
+
     // /**
     //  * @return Attendees[] Returns an array of Attendees objects
     //  */
