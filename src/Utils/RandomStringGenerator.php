@@ -21,7 +21,7 @@ class RandomStringGenerator
     /**
      * @param string $alphabet
      */
-    public function __construct($alphabet = '')
+    public function __construct(string $alphabet = '')
     {
         if ('' !== $alphabet) {
             $this->setAlphabet($alphabet);
@@ -37,7 +37,7 @@ class RandomStringGenerator
     /**
      * @param string $alphabet
      */
-    public function setAlphabet($alphabet)
+    public function setAlphabet(string $alphabet)
     {
         $this->alphabet = $alphabet;
         $this->alphabetLength = strlen($alphabet);
@@ -47,7 +47,7 @@ class RandomStringGenerator
      * @param int $length
      * @return string
      */
-    public function generate($length)
+    public function generate(int $length)
     {
         $token = '';
 
@@ -64,7 +64,7 @@ class RandomStringGenerator
      * @param int $max
      * @return int
      */
-    protected function getRandomInteger($min, $max)
+    protected function getRandomInteger(int $min, int $max)
     {
         $range = ($max - $min);
 
