@@ -6,9 +6,6 @@
 parameters:
     locale: en
     supported_locales: ['en', 'de', 'ps']
-    uploadMaxNumberOfFiles: 52
-    uploadMaxFileSize: 8388608
-    uploadAcceptFileTypes: /.*$/i
     randomStringGeneratorAlphabet: 2346789
 
 services:
