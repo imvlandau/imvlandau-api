@@ -130,6 +130,7 @@ class AttendeesController extends FOSRestController
             $attendees->setCompanion2($companion2);
             $attendees->setCompanion3($companion3);
             $attendees->setCompanion4($companion4);
+            $attendees->setHasBeenScanned(false);
 
             $errors = [];
             $constraintValidator = $validator->validate($attendees, null, ['create']);
