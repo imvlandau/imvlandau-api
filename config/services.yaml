@@ -9,6 +9,7 @@ parameters:
     uploadMaxNumberOfFiles: 52
     uploadMaxFileSize: 8388608
     uploadAcceptFileTypes: /.*$/i
+    randomStringGeneratorAlphabet: 2346789
 
 services:
     # default configuration for services in *this* file
@@ -34,8 +35,6 @@ services:
     sensio_framework_extra.view.listener:
         alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
 
-    # App\Controller\ApiEditorController:
-    #     arguments:
-    #         $uploadMaxNumberOfFiles: '%uploadMaxNumberOfFiles%'
-    #         $uploadMaxFileSize: '%uploadMaxFileSize%'
-    #         $uploadAcceptFileTypes: '%uploadAcceptFileTypes%'
+    App\Controller\AttendeesController:
+        arguments:
+            $randomStringGeneratorAlphabet: '%randomStringGeneratorAlphabet%'

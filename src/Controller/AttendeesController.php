@@ -34,12 +34,13 @@ class AttendeesController extends FOSRestController
     public function __construct(
         TranslatorInterface $translator,
         RandomStringGenerator $randomStringGenerator,
-        BuilderInterface $customQrCodeBuilder
+        BuilderInterface $customQrCodeBuilder,
+        $randomStringGeneratorAlphabet = null
     ) {
         $this->translator = $translator;
         $this->customQrCodeBuilder = $customQrCodeBuilder;
         $this->randomStringGenerator = $randomStringGenerator;
-        $this->randomStringGenerator->setAlphabet('2346789');
+        $this->randomStringGenerator->setAlphabet($randomStringGeneratorAlphabet);
     }
 
     /**
