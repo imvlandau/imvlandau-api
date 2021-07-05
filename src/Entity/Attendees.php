@@ -62,6 +62,11 @@ class Attendees extends EntityBase
      */
     private $companion4;
 
+    /**
+     * @ORM\Column(name="has_been_scanned", type="boolean", options={"default":"0"})
+     */
+    private $hasBeenScanned;
+
 
     public function getId(): ?int
     {
@@ -160,6 +165,18 @@ class Attendees extends EntityBase
     public function setCompanion4(string $companion4): self
     {
         $this->companion4 = $companion4;
+
+        return $this;
+    }
+
+    public function getHasBeenScanned(): ?bool
+    {
+        return $this->hasBeenScanned;
+    }
+
+    public function setHasBeenScanned(bool $hasBeenScanned): self
+    {
+        $this->hasBeenScanned = $hasBeenScanned;
 
         return $this;
     }
