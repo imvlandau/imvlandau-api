@@ -19,6 +19,10 @@ use Endroid\QrCode\Builder\BuilderInterface;
 use Endroid\QrCodeBundle\Response\QrCodeResponse;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
 use Endroid\QrCode\Label\Font\NotoSans;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 /**
  * Controller to manage attendees
@@ -57,7 +61,11 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function create(Request $request,ValidatorInterface $validator) {
+    public function create(
+      Request $request,
+      ValidatorInterface $validator,
+      MailerInterface $mailer
+    ) {
         try {
             $name = $request->request->get('name');
             $email = $request->request->get('email');
@@ -101,11 +109,6 @@ class AttendeesController extends FOSRestController
                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
             }
 
-            // save user provided public key
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($attendees);
-            $entityManager->flush();
-
             $label = "";
             if (!empty($companions)){
               $label = "+ $companions";
@@ -116,8 +119,32 @@ class AttendeesController extends FOSRestController
               ->labelFont(new NotoSans(13))
               ->labelAlignment(new LabelAlignmentCenter())
               ->build();
-            $response = new QrCodeResponse($result);
-            return $response;
+            $newFileName = tempnam(sys_get_temp_dir(), 'imv-qrcode-'). '.png';
+            $result->saveToFile($newFileName);
+
+            try {
+              $email = (new TemplatedEmail())
+                   ->from('no-reply@imv-landau.de')
+                   ->to(new Address($email))
+                   ->subject('QR-Code - Eid al-Adha - 19.07.2021 - Sporthalle IGS Landau')
+                   ->embedFromPath($newFileName, 'QrCode')
+                   ->htmlTemplate('emails/attendees.html.twig')
+                   ->context(['name' => $name]);
+                   // this header tells auto-repliers ("email holiday mode") to not
+                   // reply to this message because it's an automated email
+                   $email->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+                   $mailer->send($email);
+
+            } catch (TransportExceptionInterface $e) {
+              // some error prevented the email sending
+              return new JsonResponse($e, Response::HTTP_BAD_REQUEST);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($attendees);
+            $entityManager->flush();
+
+            return new QrCodeResponse($result);
 
         } catch (\Throwable $e) {
             throw new ApiProblemException(new ApiProblem(500, $e->getMessage()));
