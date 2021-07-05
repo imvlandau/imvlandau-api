@@ -45,7 +45,7 @@ class AttendeesController extends FOSRestController
     /**
      * Fetch attendees
      *
-     * @Rest\Get("/get/attendees", name="api_attendees_get")
+     * @Rest\Get("/attendees/fetch", name="api_attendees_fetch")
      *
      * @return Response
      */
