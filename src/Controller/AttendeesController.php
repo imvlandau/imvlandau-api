@@ -59,6 +59,11 @@ class AttendeesController extends FOSRestController
      *
      * @Rest\Get("/attendees/validate/{token}", name="api_attendees_validate")
      *
+     * Responses:
+     *    {"status":404,"message": "NOT FOUND"}
+     *    {"status":226,"message": "IM_USED"}
+     *    {"status":202,"message": "ACCEPTED"}
+     *
      * @return Response
      */
     public function validate(AttendeesRepository $attendeesRepository, Attendees $attendees)
