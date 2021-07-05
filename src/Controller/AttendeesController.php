@@ -67,16 +67,21 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function validate(AttendeesRepository $attendeesRepository, Attendees $attendees)
+    public function validate(AttendeesRepository $attendeesRepository, int $token)
     {
-      if ($attendees->getHasBeenScanned()) {
-        return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
+      $attendees = $attendeesRepository->findOneByToken($token);
+      if ($attendees) {
+        if ($attendees->getHasBeenScanned()) {
+          return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
+        } else {
+          $attendees->setHasBeenScanned(true);
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->persist($attendees);
+          $entityManager->flush();
+          return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
+        }
       } else {
-        $attendees->setHasBeenScanned(true);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($attendees);
-        $entityManager->flush();
-        return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
+        return new Response(Response::$statusTexts[404], Response::HTTP_NOT_FOUND);
       }
     }
 
