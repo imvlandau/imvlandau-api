@@ -15,6 +15,7 @@ App\Entity\Attendees:
             - Email:
                 message: 'attendees.email.invalid'
                 groups: create
+                normalizer: trim
             - NotBlank:
                 message: 'attendees.email.not_blank'
                 groups: create
