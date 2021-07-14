@@ -208,4 +208,19 @@ class AttendeesController extends FOSRestController
         $entityManager->remove($attendees);
         $entityManager->flush();
     }
+
+    /**
+     * Delete attendees entry
+     *
+     * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
+     *
+     * @return Response
+     */
+    public function deleteAll(Request $request)
+    {
+      $entityManager = $this->getDoctrine()->getManager();
+      $connection = $entityManager->getConnection();
+      $platform   = $connection->getDatabasePlatform();
+      $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
+    }
 }
