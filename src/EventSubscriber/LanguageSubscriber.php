@@ -9,6 +9,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class LanguageSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var array
+     */
+    private $supportedLocales;
+
+    public function __construct(array $supportedLocales)
+    {
+        $this->supportedLocales = $supportedLocales;
+    }
 
     public static function getSubscribedEvents()
     {
@@ -27,7 +36,7 @@ class LanguageSubscriber implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        $preferredLanguage = $request->getPreferredLanguage();
+        $preferredLanguage = $request->getPreferredLanguage($this->supportedLocales);
         $request->setLocale($preferredLanguage);
     }
 }
