@@ -8,6 +8,7 @@ parameters:
     supported_locales: ['en', 'de', 'ps']
     randomStringGeneratorAlphabet: "2346789"
     maxAttendeesCount: 50
+    attendeesEmailTemplate: "QR-Code für Eid al-Adha am Dienstag, den 20.07.2021 in der Sporthalle IGS Landau"
 
 services:
     # default configuration for services in *this* file
@@ -37,3 +38,4 @@ services:
         arguments:
             $randomStringGeneratorAlphabet: '%randomStringGeneratorAlphabet%'
             $maxAttendeesCount: '%maxAttendeesCount%'
+            $attendeesEmailTemplate: '%attendeesEmailTemplate%'

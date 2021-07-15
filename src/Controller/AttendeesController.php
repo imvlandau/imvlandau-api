@@ -37,13 +37,15 @@ class AttendeesController extends FOSRestController
         RandomStringGenerator $randomStringGenerator,
         BuilderInterface $customQrCodeBuilder,
         $randomStringGeneratorAlphabet = null,
-        $maxAttendeesCount = 0
+        $maxAttendeesCount = 0,
+        $attendeesEmailTemplate = null
     ) {
         $this->translator = $translator;
         $this->customQrCodeBuilder = $customQrCodeBuilder;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->randomStringGenerator->setAlphabet($randomStringGeneratorAlphabet);
         $this->maxAttendeesCount = $maxAttendeesCount;
+        $this->attendeesEmailTemplate = $attendeesEmailTemplate;
     }
 
     /**
@@ -171,7 +173,7 @@ class AttendeesController extends FOSRestController
               $email = (new TemplatedEmail())
                    ->from('no-reply@imv-landau.de')
                    ->to(new Address($email))
-                   ->subject('QR-Code - Eid al-Adha - 19.07.2021 - Sporthalle IGS Landau')
+                   ->subject($this->attendeesEmailTemplate)
                    ->embedFromPath($newFileName, 'QrCode')
                    ->htmlTemplate('emails/attendees.html.twig')
                    ->context(['name' => $name]);
