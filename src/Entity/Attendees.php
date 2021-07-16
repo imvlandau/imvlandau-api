@@ -67,6 +67,15 @@ class Attendees extends EntityBase
      */
     private $hasBeenScanned;
 
+    /**
+     * @ORM\Column(name="has_been_scanned_amount", type="integer", options={"default":0})
+     */
+    private $hasBeenScannedAmount;
+
+    public function __construct()
+    {
+        $this->hasBeenScannedAmount = 0;
+    }
 
     public function getId(): ?int
     {
@@ -177,6 +186,18 @@ class Attendees extends EntityBase
     public function setHasBeenScanned(bool $hasBeenScanned): self
     {
         $this->hasBeenScanned = $hasBeenScanned;
+
+        return $this;
+    }
+
+    public function getHasBeenScannedAmount(): ?int
+    {
+        return $this->hasBeenScannedAmount;
+    }
+
+    public function setHasBeenScannedAmount(int $hasBeenScannedAmount): self
+    {
+        $this->hasBeenScannedAmount = $hasBeenScannedAmount;
 
         return $this;
     }

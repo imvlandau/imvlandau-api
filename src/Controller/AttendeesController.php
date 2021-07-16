@@ -38,14 +38,20 @@ class AttendeesController extends FOSRestController
         BuilderInterface $customQrCodeBuilder,
         $randomStringGeneratorAlphabet = null,
         $maxAttendeesCount = 0,
-        $attendeesEmailTemplate = null
+        $attendeesEmailSubject1 = null,
+        $attendeesEmailSubject2 = null,
+        $attendeesEmailTemplatePath1 = null,
+        $attendeesEmailTemplatePath2 = null
     ) {
         $this->translator = $translator;
         $this->customQrCodeBuilder = $customQrCodeBuilder;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->randomStringGenerator->setAlphabet($randomStringGeneratorAlphabet);
         $this->maxAttendeesCount = $maxAttendeesCount;
-        $this->attendeesEmailTemplate = $attendeesEmailTemplate;
+        $this->attendeesEmailSubject1 = $attendeesEmailSubject1;
+        $this->attendeesEmailSubject2 = $attendeesEmailSubject2;
+        $this->attendeesEmailTemplatePath1 = $attendeesEmailTemplatePath1;
+        $this->attendeesEmailTemplatePath2 = $attendeesEmailTemplatePath2;
     }
 
     /**
@@ -95,7 +101,34 @@ class AttendeesController extends FOSRestController
         if ($attendees->getHasBeenScanned()) {
           return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
         } else {
-          $attendees->setHasBeenScanned(true);
+          $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+
+          $companions = 0;
+          $companion1 = $attendees->getCompanion1();
+          $companion2 = $attendees->getCompanion2();
+          $companion3 = $attendees->getCompanion3();
+          $companion4 = $attendees->getCompanion4();
+
+          if (!empty($companion1)){
+            $companions++;
+          }
+          if (!empty($companion2)){
+            $companions++;
+          }
+          if (!empty($companion3)){
+            $companions++;
+          }
+          if (!empty($companion4)){
+            $companions++;
+          }
+
+          if (++$hasBeenScannedAmount >= 1 + $companions){
+            $attendees->setHasBeenScanned(true);
+            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          } else {
+            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          }
+
           $entityManager = $this->getDoctrine()->getManager();
           $entityManager->persist($attendees);
           $entityManager->flush();
@@ -172,14 +205,10 @@ class AttendeesController extends FOSRestController
                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
             }
 
-            $label = "";
-            if (!empty($companions)){
-              $label = "+ $companions";
-            }
             $result = $this->customQrCodeBuilder
               ->data($token)
-              ->labelText($token . " - " . substr($name, 0, 19) . " " . $label)
-              ->labelFont(new NotoSans(13))
+              ->labelText($token . " - " . ($count + 1 + $companions <= $this->maxAttendeesCount / 2 ? "7:30 Uhr" : "8:45 Uhr") . " - " . substr($name, 0, 20) . " - Anzahl: " . (1 + $companions))
+              ->labelFont(new NotoSans(10))
               ->labelAlignment(new LabelAlignmentCenter())
               ->build();
             $newFileName = tempnam(sys_get_temp_dir(), 'imv-qrcode-'). '.png';
@@ -189,9 +218,9 @@ class AttendeesController extends FOSRestController
               $email = (new TemplatedEmail())
                    ->from('no-reply@imv-landau.de')
                    ->to(new Address($email))
-                   ->subject($this->attendeesEmailTemplate)
+                   ->subject(($count + 1 + $companions <= $this->maxAttendeesCount / 2) ? $this->attendeesEmailSubject1 : $this->attendeesEmailSubject2)
                    ->embedFromPath($newFileName, 'QrCode')
-                   ->htmlTemplate('emails/attendees.html.twig')
+                   ->htmlTemplate(($count + 1 + $companions <= $this->maxAttendeesCount / 2) ? $this->attendeesEmailTemplatePath1 : $this->attendeesEmailTemplatePath2)
                    ->context(['name' => $name]);
                    // this header tells auto-repliers ("email holiday mode") to not
                    // reply to this message because it's an automated email
