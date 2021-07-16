@@ -61,6 +61,22 @@ class AttendeesController extends FOSRestController
     }
 
     /**
+     * Set hasBeenScanned flag
+     *
+     * @Rest\Post("/attendees/{id}/setHasBeenScanned", name="api_attendees_setHasBeenScanned")
+     *
+     * @return Response
+     */
+    public function setHasBeenScanned(EntityManagerInterface $entityManager, Request $request, Attendees $attendees)
+    {
+        $hasBeenScanned = $request->request->getBoolean('hasBeenScanned');
+        $attendees->setHasBeenScanned($hasBeenScanned);
+        $entityManager->persist($attendees);
+        $entityManager->flush();
+        return $attendees;
+    }
+
+    /**
      * Fetch attendees
      *
      * @Rest\Get("/attendees/validate/{token}", name="api_attendees_validate")
