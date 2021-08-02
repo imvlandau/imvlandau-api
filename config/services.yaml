@@ -4,12 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
-    supported_locales: ['en', 'de', 'ps']
+    locale: de
+    supported_locales: ['de', 'en', 'ps']
     randomStringGeneratorAlphabet: "2346789"
-    maxAttendeesCount: 400
-    attendeesEmailSubject1: "Eid al-Adha Gebet um 7:30 Uhr am Dienstag, den 20.07.2021 in der Abu Bakr Moschee"
-    attendeesEmailSubject2: "Eid al-Adha Gebet um 8:45 Uhr am Dienstag, den 20.07.2021 in der Abu Bakr Moschee"
+    maxAttendeesCount: 100
+    attendeesEmailSubject1: "QrCode für das Freitagsgebet um 13:45 Uhr am 30.07.2021 in der Abu Bakr Moschee"
+    attendeesEmailSubject2: "QrCode für das Freitagsgebet um 15:00 Uhr am 30.07.2021 in der Abu Bakr Moschee"
     attendeesEmailTemplatePath1: "emails/attendees.1.html.twig"
     attendeesEmailTemplatePath2: "emails/attendees.2.html.twig"
 

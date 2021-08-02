@@ -61,6 +61,18 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
+    public function fetchTmp(AttendeesRepository $attendeesRepository)
+    {
+        return $attendeesRepository->findAll();
+    }
+
+    /**
+     * Fetch attendees
+     *
+     * @Rest\Get("/participants/fetch", name="api_participants_fetch")
+     *
+     * @return Response
+     */
     public function fetch(AttendeesRepository $attendeesRepository)
     {
         return $attendeesRepository->findAll();
@@ -86,6 +98,63 @@ class AttendeesController extends FOSRestController
      * Fetch attendees
      *
      * @Rest\Get("/attendees/validate/{token}", name="api_attendees_validate")
+     *
+     * Responses:
+     *    {"status":404,"message": "NOT FOUND"}
+     *    {"status":226,"message": "IM_USED"}
+     *    {"status":202,"message": "ACCEPTED"}
+     *
+     * @return Response
+     */
+    public function validateTmp(AttendeesRepository $attendeesRepository, int $token)
+    {
+      $attendees = $attendeesRepository->findOneByToken($token);
+      if ($attendees) {
+        if ($attendees->getHasBeenScanned()) {
+          return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
+        } else {
+          $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+
+          $companions = 0;
+          $companion1 = $attendees->getCompanion1();
+          $companion2 = $attendees->getCompanion2();
+          $companion3 = $attendees->getCompanion3();
+          $companion4 = $attendees->getCompanion4();
+
+          if (!empty($companion1)){
+            $companions++;
+          }
+          if (!empty($companion2)){
+            $companions++;
+          }
+          if (!empty($companion3)){
+            $companions++;
+          }
+          if (!empty($companion4)){
+            $companions++;
+          }
+
+          if (++$hasBeenScannedAmount >= 1 + $companions){
+            $attendees->setHasBeenScanned(true);
+            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          } else {
+            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          }
+
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->persist($attendees);
+          $entityManager->flush();
+          return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
+        }
+      } else {
+        return new Response(Response::$statusTexts[404], Response::HTTP_NOT_FOUND);
+      }
+    }
+
+    /**
+     * Validate participant
+     *
+     * @Rest\Get("/participant/validate/{token}", name="api_participant_validate")
      *
      * Responses:
      *    {"status":404,"message": "NOT FOUND"}
@@ -142,7 +211,7 @@ class AttendeesController extends FOSRestController
     /**
      * Deploy attendees
      *
-     * @Rest\Post("/attendees/create", name="api_attendees_create")
+     * @Rest\Post("/participant/create", name="api_attendees_create")
      *
      * @return Response
      */
@@ -180,9 +249,11 @@ class AttendeesController extends FOSRestController
             $count = $attendeesRepository->countAttendees();
             if ($count + 1 + $companions > $this->maxAttendeesCount){
               $error = [
-                  "attendees.max.attendees.reached" => $this->translator->trans("attendees.max.attendees.reached"),
+                  "key" => "attendees.max.attendees.reached",
+                  "message" => $this->translator->trans("attendees.max.attendees.reached"),
+                  "type" => "error"
               ];
-              return new JsonResponse($error, Response::HTTP_BAD_REQUEST);
+              return new JsonResponse([$error], Response::HTTP_BAD_REQUEST);
             }
 
             $attendees = new Attendees();
@@ -199,15 +270,19 @@ class AttendeesController extends FOSRestController
             $errors = [];
             $constraintValidator = $validator->validate($attendees, null, ['create']);
             if (count($constraintValidator) > 0) {
-                foreach ($constraintValidator->getIterator() as $error) {
-                    $errors[$error->getMessageTemplate()] = $this->translator->trans($error->getMessage());
+                foreach ($constraintValidator->getIterator() as $key => $error) {
+                    $errors[$key] = [
+                      "key" => $error->getMessageTemplate(),
+                      "message" => $this->translator->trans($error->getMessage()),
+                      "type" => "error"
+                    ];
                 }
                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
             }
 
             $result = $this->customQrCodeBuilder
               ->data($token)
-              ->labelText($token . " - " . ($count + 1 + $companions <= $this->maxAttendeesCount / 2 ? "7:30 Uhr" : "8:45 Uhr") . " - " . substr($name, 0, 20) . " - Anzahl: " . (1 + $companions))
+              ->labelText($token . " - " . ($count + 1 + $companions <= $this->maxAttendeesCount / 2 ? "13:45 Uhr" : "15:00 Uhr") . " - " . substr($name, 0, 20) . " - Anzahl: " . (1 + $companions))
               ->labelFont(new NotoSans(10))
               ->labelAlignment(new LabelAlignmentCenter())
               ->build();
@@ -256,18 +331,18 @@ class AttendeesController extends FOSRestController
         $entityManager->flush();
     }
 
-    // /**
-    //  * Delete attendees entry
-    //  *
-    //  * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
-    //  *
-    //  * @return Response
-    //  */
-    // public function deleteAll(Request $request)
-    // {
-    //   $entityManager = $this->getDoctrine()->getManager();
-    //   $connection = $entityManager->getConnection();
-    //   $platform   = $connection->getDatabasePlatform();
-    //   $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
-    // }
+    /**
+     * Delete attendees entry
+     *
+     * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
+     *
+     * @return Response
+     */
+    public function deleteAll(Request $request)
+    {
+      $entityManager = $this->getDoctrine()->getManager();
+      $connection = $entityManager->getConnection();
+      $platform   = $connection->getDatabasePlatform();
+      $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
+    }
 }
