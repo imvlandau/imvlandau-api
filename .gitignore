@@ -61,5 +61,5 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
-.remote-sync.json
+.remote-sync.*json
 github_ssh_key_imvlandau.pem
