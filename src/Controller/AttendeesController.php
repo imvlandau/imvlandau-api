@@ -318,9 +318,9 @@ class AttendeesController extends FOSRestController
     }
 
     /**
-     * Delete attendees entry
+     * Delete participant entry
      *
-     * @Rest\Delete("/attendees/delete/{id}", name="api_attendees_delete")
+     * @Rest\Delete("/participant/delete/{id}", name="api_participant_delete")
      *
      * @return Response
      */
