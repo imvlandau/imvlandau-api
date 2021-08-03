@@ -81,7 +81,7 @@ class AttendeesController extends FOSRestController
     /**
      * Set hasBeenScanned flag
      *
-     * @Rest\Post("/attendees/{id}/setHasBeenScanned", name="api_attendees_setHasBeenScanned")
+     * @Rest\Post("/participant/{id}/setHasBeenScanned", name="api_participant_setHasBeenScanned")
      *
      * @return Response
      */
