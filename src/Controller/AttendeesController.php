@@ -110,36 +110,31 @@ class AttendeesController extends FOSRestController
     {
       $attendees = $attendeesRepository->findOneByToken($token);
       if ($attendees) {
-        if ($attendees->getHasBeenScanned()) {
+        $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+        $companions = 0;
+        $companion1 = $attendees->getCompanion1();
+        $companion2 = $attendees->getCompanion2();
+        $companion3 = $attendees->getCompanion3();
+        $companion4 = $attendees->getCompanion4();
+
+        if (!empty($companion1)){
+          $companions++;
+        }
+        if (!empty($companion2)){
+          $companions++;
+        }
+        if (!empty($companion3)){
+          $companions++;
+        }
+        if (!empty($companion4)){
+          $companions++;
+        }
+
+        if (++$hasBeenScannedAmount > 1 + $companions) {
           return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
         } else {
-          $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
-
-          $companions = 0;
-          $companion1 = $attendees->getCompanion1();
-          $companion2 = $attendees->getCompanion2();
-          $companion3 = $attendees->getCompanion3();
-          $companion4 = $attendees->getCompanion4();
-
-          if (!empty($companion1)){
-            $companions++;
-          }
-          if (!empty($companion2)){
-            $companions++;
-          }
-          if (!empty($companion3)){
-            $companions++;
-          }
-          if (!empty($companion4)){
-            $companions++;
-          }
-
-          if (++$hasBeenScannedAmount >= 1 + $companions){
-            $attendees->setHasBeenScanned(true);
-            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
-          } else {
-            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
-          }
+          $attendees->setHasBeenScanned(true);
+          $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
 
           $entityManager = $this->getDoctrine()->getManager();
           $entityManager->persist($attendees);
@@ -167,36 +162,31 @@ class AttendeesController extends FOSRestController
     {
       $attendees = $attendeesRepository->findOneByToken($token);
       if ($attendees) {
-        if ($attendees->getHasBeenScanned()) {
+        $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+        $companions = 0;
+        $companion1 = $attendees->getCompanion1();
+        $companion2 = $attendees->getCompanion2();
+        $companion3 = $attendees->getCompanion3();
+        $companion4 = $attendees->getCompanion4();
+
+        if (!empty($companion1)){
+          $companions++;
+        }
+        if (!empty($companion2)){
+          $companions++;
+        }
+        if (!empty($companion3)){
+          $companions++;
+        }
+        if (!empty($companion4)){
+          $companions++;
+        }
+
+        if (++$hasBeenScannedAmount > 1 + $companions) {
           return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
         } else {
-          $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
-
-          $companions = 0;
-          $companion1 = $attendees->getCompanion1();
-          $companion2 = $attendees->getCompanion2();
-          $companion3 = $attendees->getCompanion3();
-          $companion4 = $attendees->getCompanion4();
-
-          if (!empty($companion1)){
-            $companions++;
-          }
-          if (!empty($companion2)){
-            $companions++;
-          }
-          if (!empty($companion3)){
-            $companions++;
-          }
-          if (!empty($companion4)){
-            $companions++;
-          }
-
-          if (++$hasBeenScannedAmount >= 1 + $companions){
-            $attendees->setHasBeenScanned(true);
-            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
-          } else {
-            $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
-          }
+          $attendees->setHasBeenScanned(true);
+          $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
 
           $entityManager = $this->getDoctrine()->getManager();
           $entityManager->persist($attendees);
