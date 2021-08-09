@@ -64,41 +64,14 @@ class AttendeesRepository extends ServiceEntityRepository
         return $counter;
     }
 
-    // /**
-    //  * @return Attendees[] Returns an array of Attendees objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Truncate attendees table.
+     */
+    public function truncate()
     {
-        return $this->createQueryBuilder('att')
-            ->andWhere('att.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('att.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $platform   = $connection->getDatabasePlatform();
+        $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Attendees
-    {
-        return $this->createQueryBuilder('att')
-            ->andWhere('att.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-            // ->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
-        ;
-
-        // $entityManager = $this->getEntityManager();
-        // $query = $entityManager->createQuery(
-        //   'SELECT att.email
-        //   FROM App\Entity\Attendees att
-        //   WHERE att.email = :email'
-        // )->setParameter('email', $value);
-        // return $query->getOneOrNullResult();
-    }
-    */
 }

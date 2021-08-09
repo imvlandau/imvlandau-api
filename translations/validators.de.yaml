@@ -5,3 +5,14 @@ attendees.email.invalid: Die E-Mail {{ value }} hat kein gültiges Format.
 attendees.email.not_blank: Sie müssen ihre E-Mail eingeben.
 attendees.email.unique: Die E-Mail {{ value }} existiert bereits.
 attendees.mobile.not_blank: Sie müssen ihre Whatsappnummer eingeben.
+
+settings.eventMaximumAmount.not_blank: Sie müssen eine Maximalanzahl angeben
+settings.eventDate.not_blank: Sie müssen ein Veranstaltungsdatum eingeben
+settings.eventTime1.not_blank: Sie müssen eine Veranstaltungsuhrzeit angeben
+settings.eventTopic.not_blank: Sie müssen ein Veranstaltungsthema eingeben
+settings.eventTopic.maxMessage: Die länge des Veranstaltungsthemas darf maximal {{ limit }} Zeichen lang sein
+settings.eventLocation.not_blank: Sie müssen ein Veranstaltungsort eingeben
+settings.eventLocation.maxMessage: Die länge des Veranstaltungsortes darf maximal {{ limit }} Zeichen lang sein
+settings.eventEmailSubject.not_blank: Sie müssen einen E-Mail-Betreff eingeben
+settings.eventEmailSubject.maxMessage: Die länge des E-Mail-Betreffs darf maximal {{ limit }} Zeichen lang sein
+settings.eventEmailTemplate.not_blank: Sie müssen einen E-Mail-Text eingeben

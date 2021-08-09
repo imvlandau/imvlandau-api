@@ -7,11 +7,6 @@ parameters:
     locale: de
     supported_locales: ['de', 'en', 'ps']
     randomStringGeneratorAlphabet: "2346789"
-    maxAttendeesCount: 100
-    attendeesEmailSubject1: "QrCode für das Freitagsgebet um 13:45 Uhr am 30.07.2021 in der Abu Bakr Moschee"
-    attendeesEmailSubject2: "QrCode für das Freitagsgebet um 15:00 Uhr am 30.07.2021 in der Abu Bakr Moschee"
-    attendeesEmailTemplatePath1: "emails/attendees.1.html.twig"
-    attendeesEmailTemplatePath2: "emails/attendees.2.html.twig"
 
 services:
     # default configuration for services in *this* file
@@ -42,8 +37,3 @@ services:
     App\Controller\AttendeesController:
         arguments:
             $randomStringGeneratorAlphabet: '%randomStringGeneratorAlphabet%'
-            $maxAttendeesCount: '%maxAttendeesCount%'
-            $attendeesEmailSubject1: '%attendeesEmailSubject1%'
-            $attendeesEmailSubject2: '%attendeesEmailSubject2%'
-            $attendeesEmailTemplatePath1: '%attendeesEmailTemplatePath1%'
-            $attendeesEmailTemplatePath2: '%attendeesEmailTemplatePath2%'

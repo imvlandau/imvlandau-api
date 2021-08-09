@@ -6,6 +6,7 @@ use App\Entity\Attendees;
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
 use App\Repository\AttendeesRepository;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Utils\RandomStringGenerator;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -36,22 +37,12 @@ class AttendeesController extends FOSRestController
         TranslatorInterface $translator,
         RandomStringGenerator $randomStringGenerator,
         BuilderInterface $customQrCodeBuilder,
-        $randomStringGeneratorAlphabet = null,
-        $maxAttendeesCount = 0,
-        $attendeesEmailSubject1 = null,
-        $attendeesEmailSubject2 = null,
-        $attendeesEmailTemplatePath1 = null,
-        $attendeesEmailTemplatePath2 = null
+        $randomStringGeneratorAlphabet = null
     ) {
         $this->translator = $translator;
         $this->customQrCodeBuilder = $customQrCodeBuilder;
         $this->randomStringGenerator = $randomStringGenerator;
         $this->randomStringGenerator->setAlphabet($randomStringGeneratorAlphabet);
-        $this->maxAttendeesCount = $maxAttendeesCount;
-        $this->attendeesEmailSubject1 = $attendeesEmailSubject1;
-        $this->attendeesEmailSubject2 = $attendeesEmailSubject2;
-        $this->attendeesEmailTemplatePath1 = $attendeesEmailTemplatePath1;
-        $this->attendeesEmailTemplatePath2 = $attendeesEmailTemplatePath2;
     }
 
     /**
@@ -210,9 +201,33 @@ class AttendeesController extends FOSRestController
       ValidatorInterface $validator,
       EntityManagerInterface $entityManager,
       AttendeesRepository $attendeesRepository,
+      SettingsRepository $settingsRepository,
       MailerInterface $mailer
     ) {
         try {
+            $settings = $settingsRepository->getFirst();
+            if (empty($settings)) {
+              $error = [
+                "key" => "settings.no.settings.found",
+                "message" => $this->translator->trans("settings.no.settings.found"),
+                "type" => "error"
+              ];
+              return new JsonResponse([$error], Response::HTTP_BAD_REQUEST);
+            }
+            $eventMaximumAmount = $settings->getEventMaximumAmount();
+            $eventDate = $settings->getEventDate();
+            $eventDateStr = (new \IntlDateFormatter($request->getLocale(), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE))->format($eventDate);
+            $eventTime1 = $settings->getEventTime1();
+            $eventTime2 = $settings->getEventTime2();
+            $eventTime1Str = (new \IntlDateFormatter($request->getLocale(), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT))->format($eventTime1);
+            if ($eventTime2) {
+              $eventTime2Str = (new \IntlDateFormatter($request->getLocale(), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT))->format($eventTime2);
+            }
+            $eventTopic = $settings->getEventTopic();
+            $eventLocation = $settings->getEventLocation();
+            $eventEmailSubject = $settings->getEventEmailSubject();
+            $eventEmailTemplate = $settings->getEventEmailTemplate();
+
             $name = $request->request->get('name');
             $email = $request->request->get('email');
             $token = $this->randomStringGenerator->generate(5);
@@ -237,7 +252,7 @@ class AttendeesController extends FOSRestController
             }
 
             $count = $attendeesRepository->countAttendees();
-            if ($count + 1 + $companions > $this->maxAttendeesCount){
+            if ($count + 1 + $companions > $eventMaximumAmount){
               $error = [
                   "key" => "attendees.max.attendees.reached",
                   "message" => $this->translator->trans("attendees.max.attendees.reached"),
@@ -257,6 +272,42 @@ class AttendeesController extends FOSRestController
             $attendees->setCompanion4($companion4);
             $attendees->setHasBeenScanned(false);
 
+            $halfAmountReached = function () use ($count, $companions, $eventMaximumAmount) {
+              return $count + 1 + $companions > $eventMaximumAmount / 2;
+            };
+
+            $attendeesEmailSubject = function ($eventTimeStr) use ($eventEmailSubject, $eventTopic, $eventDateStr, $eventLocation, $request) {
+              $pattern = array();
+              $pattern[0] = '/{{\s*eventTopic\s*}}/';
+              $pattern[1] = '/{{\s*eventTime\s*}}/';
+              $pattern[2] = '/{{\s*eventDate\s*}}/';
+              $pattern[3] = '/{{\s*eventLocation\s*}}/';
+
+              $replacement = array();
+              $replacement[0] = $eventTopic;
+              $replacement[1] = $eventTimeStr;
+              $replacement[2] = $eventDateStr;
+              $replacement[3] = $eventLocation;
+              return preg_replace($pattern, $replacement,$eventEmailSubject);
+            };
+
+            $attendeesEmailTemplate = function ($eventTimeStr) use ($eventEmailTemplate, $eventTopic, $eventDateStr, $eventLocation, $request, $name) {
+              $pattern = array();
+              $pattern[0] = '/{{\s*eventTopic\s*}}/';
+              $pattern[1] = '/{{\s*eventTime\s*}}/';
+              $pattern[2] = '/{{\s*eventDate\s*}}/';
+              $pattern[3] = '/{{\s*eventLocation\s*}}/';
+              $pattern[4] = '/{{\s*name\s*}}/';
+
+              $replacement = array();
+              $replacement[0] = $eventTopic;
+              $replacement[1] = $eventTimeStr;
+              $replacement[2] = $eventDateStr;
+              $replacement[3] = $eventLocation;
+              $replacement[4] = $name;
+              return preg_replace($pattern, $replacement,$eventEmailTemplate);
+            };
+
             $errors = [];
             $constraintValidator = $validator->validate($attendees, null, ['create']);
             if (count($constraintValidator) > 0) {
@@ -272,7 +323,7 @@ class AttendeesController extends FOSRestController
 
             $result = $this->customQrCodeBuilder
               ->data($token)
-              ->labelText($token . " - " . ($count + 1 + $companions <= $this->maxAttendeesCount / 2 ? "13:45 Uhr" : "15:00 Uhr") . " - " . substr($name, 0, 20) . " - Anzahl: " . (1 + $companions))
+              ->labelText($token . " - " . ($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1 ? "$eventTime2Str Uhr" : "$eventTime1Str Uhr") . " - " . substr($name, 0, 20) . " - Anzahl: " . (1 + $companions))
               ->labelFont(new NotoSans(10))
               ->labelAlignment(new LabelAlignmentCenter())
               ->build();
@@ -283,9 +334,9 @@ class AttendeesController extends FOSRestController
               $email = (new TemplatedEmail())
                    ->from('no-reply@imv-landau.de')
                    ->to(new Address($email))
-                   ->subject(($count + 1 + $companions <= $this->maxAttendeesCount / 2) ? $this->attendeesEmailSubject1 : $this->attendeesEmailSubject2)
+                   ->subject($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $attendeesEmailSubject($eventTime2Str) : $attendeesEmailSubject($eventTime1Str))
                    ->embedFromPath($newFileName, 'QrCode')
-                   ->htmlTemplate(($count + 1 + $companions <= $this->maxAttendeesCount / 2) ? $this->attendeesEmailTemplatePath1 : $this->attendeesEmailTemplatePath2)
+                   ->html($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $attendeesEmailTemplate($eventTime2Str) : $attendeesEmailTemplate($eventTime1Str))
                    ->context(['name' => $name]);
                    // this header tells auto-repliers ("email holiday mode") to not
                    // reply to this message because it's an automated email
@@ -321,18 +372,15 @@ class AttendeesController extends FOSRestController
         $entityManager->flush();
     }
 
-    /**
-     * Delete attendees entry
-     *
-     * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
-     *
-     * @return Response
-     */
-    public function deleteAll(Request $request)
-    {
-      $entityManager = $this->getDoctrine()->getManager();
-      $connection = $entityManager->getConnection();
-      $platform   = $connection->getDatabasePlatform();
-      $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
-    }
+    // /**
+    //  * Delete attendees entry
+    //  *
+    //  * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
+    //  *
+    //  * @return Response
+    //  */
+    // public function deleteAll(AttendeesRepository $attendeesRepository)
+    // {
+    //   $attendeesRepository->truncate();
+    // }
 }

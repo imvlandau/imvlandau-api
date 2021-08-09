@@ -31,3 +31,53 @@ App\Entity\Attendees:
             message: 'attendees.email.unique'
             fields: email
             groups: create
+
+App\Entity\Settings:
+    properties:
+        eventMaximumAmount:
+            - NotBlank:
+                message: 'settings.eventMaximumAmount.not_blank'
+                groups: save
+                normalizer: trim
+        eventDate:
+            - NotBlank:
+                message: 'settings.eventDate.not_blank'
+                groups: save
+                normalizer: trim
+        eventTime1:
+            - NotBlank:
+                message: 'settings.eventTime1.not_blank'
+                groups: save
+                normalizer: trim
+        eventTopic:
+            - NotBlank:
+                message: 'settings.eventTopic.not_blank'
+                groups: save
+                normalizer: trim
+            - Length:
+                maxMessage: 'settings.eventTopic.maxMessage'
+                max: 50
+                groups: save
+        eventLocation:
+            - NotBlank:
+                message: 'settings.eventLocation.not_blank'
+                groups: save
+                normalizer: trim
+            - Length:
+                maxMessage: 'settings.eventLocation.maxMessage'
+                max: 100
+                groups: save
+        eventEmailSubject:
+            - NotBlank:
+                message: 'settings.eventEmailSubject.not_blank'
+                groups: save
+                normalizer: trim
+            - Length:
+                maxMessage: 'settings.eventEmailSubject.maxMessage'
+                max: 150
+                groups: save
+        eventEmailTemplate:
+            - NotBlank:
+                message: 'settings.eventEmailTemplate.not_blank'
+                groups: save
+                normalizer: trim

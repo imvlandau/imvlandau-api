@@ -5,3 +5,14 @@ attendees.email.invalid: The email {{ value }}   is not a valid email.
 attendees.email.not_blank: You must enter your E-Mail.
 attendees.email.unique: This E-Mail {{ value }} is already registered.
 attendees.mobile.not_blank: You must enter your Whatsapp number.
+
+settings.eventMaximumAmount.not_blank: You must enter the maximum amount of participants
+settings.eventDate.not_blank: You must provide a date for this event
+settings.eventTime1.not_blank: You must provide a time for this event
+settings.eventTopic.not_blank: You must provide a topic for this event
+settings.eventTopic.maxMessage: The topic for this event may not exceed {{ limit }} characters
+settings.eventLocation.not_blank: You must provide a location for this event
+settings.eventLocation.maxMessage: The name of the location may not exceed {{ limit }} characters
+settings.eventEmailSubject.not_blank: You must provide an email subject for this event
+settings.eventEmailSubject.maxMessage: The email subject for this event may not exceed {{ limit }} characters
+settings.eventEmailTemplate.not_blank: You must provide an email text for this event
