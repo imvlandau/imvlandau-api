@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Controller to manage event settings
@@ -44,6 +45,7 @@ class SettingsController extends FOSRestController
      * Save settings
      *
      * @Rest\Post("/settings/save", name="api_settings_save")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */

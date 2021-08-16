@@ -25,6 +25,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Controller to manage attendees
@@ -49,6 +50,7 @@ class AttendeesController extends FOSRestController
      * Fetch attendees
      *
      * @Rest\Get("/attendees/fetch", name="api_attendees_fetch")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -61,6 +63,7 @@ class AttendeesController extends FOSRestController
      * Fetch attendees
      *
      * @Rest\Get("/participants/fetch", name="api_participants_fetch")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -73,6 +76,7 @@ class AttendeesController extends FOSRestController
      * Set hasBeenScanned flag
      *
      * @Rest\Post("/participant/{id}/setHasBeenScanned", name="api_participant_setHasBeenScanned")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -193,6 +197,7 @@ class AttendeesController extends FOSRestController
      * Deploy attendees
      *
      * @Rest\Post("/participant/create", name="api_attendees_create")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -362,6 +367,7 @@ class AttendeesController extends FOSRestController
      * Delete participant entry
      *
      * @Rest\Delete("/participant/delete/{id}", name="api_participant_delete")
+     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -376,6 +382,7 @@ class AttendeesController extends FOSRestController
     //  * Delete attendees entry
     //  *
     //  * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
+    //  * @IsGranted("ROLE_JWT_AUTHENTICATED")
     //  *
     //  * @return Response
     //  */
