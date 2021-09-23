@@ -11,7 +11,6 @@ class A0AnonymousUser extends A0User {
 
     public function getUsername()
     {
-        // return null;
-        return "anonymous.user";
+        return null;
     }
 }
