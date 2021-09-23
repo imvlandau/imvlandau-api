@@ -197,7 +197,6 @@ class AttendeesController extends FOSRestController
      * Deploy attendees
      *
      * @Rest\Post("/participant/create", name="api_attendees_create")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
