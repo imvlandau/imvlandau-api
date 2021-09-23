@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer-plugin-api": "^2.1",
-        "auth0/jwt-auth-bundle": "~3.0",
+        "auth0/jwt-auth-bundle": "~4.0",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.0",
         "endroid/qr-code-bundle": "4.0",
