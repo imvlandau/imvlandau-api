@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Settings;
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
-use App\Repository\AttendeesRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -54,7 +54,7 @@ class SettingsController extends FOSRestController
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         SettingsRepository $settingsRepository,
-        AttendeesRepository $attendeesRepository
+        ParticipantRepository $participantRepository
     ) {
         try {
             $eventMaximumAmount = $request->request->get('eventMaximumAmount');
@@ -94,7 +94,7 @@ class SettingsController extends FOSRestController
             $entityManager->persist($settings);
             $entityManager->flush();
 
-            $attendeesRepository->truncate();
+            $participantRepository->truncate();
 
             return new JsonResponse(Response::$statusTexts[200], Response::HTTP_OK);
         } catch (\Throwable $e) {

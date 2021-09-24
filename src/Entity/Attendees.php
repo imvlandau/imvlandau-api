@@ -7,13 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Entity for attendees
+ * Entity for participant
  *
- * @ORM\Table(name="attendees")
- * @ORM\Entity(repositoryClass="App\Repository\AttendeesRepository")
+ * @ORM\Table(name="participant")
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Attendees extends EntityBase
+class Participant extends EntityBase
 {
     /**
      * @ORM\Id()

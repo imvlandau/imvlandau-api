@@ -1,10 +1,10 @@
-attendees.name.not_blank: Sie müssen ihren Namen eingeben.
-attendees.name.minMessage: Ihr Name muss mindestens {{ limit }} Zeichen lang sein.
-attendees.name.maxMessage: Ihr Name darf maximal {{ limit }} Zeichen lang sein.
-attendees.email.invalid: Die E-Mail {{ value }} hat kein gültiges Format.
-attendees.email.not_blank: Sie müssen ihre E-Mail eingeben.
-attendees.email.unique: Die E-Mail {{ value }} existiert bereits.
-attendees.mobile.not_blank: Sie müssen ihre Whatsappnummer eingeben.
+participant.name.not_blank: Sie müssen ihren Namen eingeben.
+participant.name.minMessage: Ihr Name muss mindestens {{ limit }} Zeichen lang sein.
+participant.name.maxMessage: Ihr Name darf maximal {{ limit }} Zeichen lang sein.
+participant.email.invalid: Die E-Mail {{ value }} hat kein gültiges Format.
+participant.email.not_blank: Sie müssen ihre E-Mail eingeben.
+participant.email.unique: Die E-Mail {{ value }} existiert bereits.
+participant.mobile.not_blank: Sie müssen ihre Whatsappnummer eingeben.
 
 settings.eventMaximumAmount.not_blank: Sie müssen eine Maximalanzahl angeben
 settings.eventDate.not_blank: Sie müssen ein Veranstaltungsdatum eingeben

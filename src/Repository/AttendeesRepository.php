@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Attendees;
+use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Attendees|null find($id, $lockMode = null, $lockVersion = null)
- * @method Attendees|null findOneBy(array $criteria, array $orderBy = null)
- * @method Attendees[]    findAll()
- * @method Attendees[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Participant|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Participant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Participant[]    findAll()
+ * @method Participant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AttendeesRepository extends ServiceEntityRepository
+class ParticipantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Attendees::class);
+        parent::__construct($registry, Participant::class);
     }
 
     /**
-     * Find all attendees.
+     * Find all participant.
      *
      * @return array|null The entity instances or NULL if the entities can not be found.
      */
@@ -29,35 +29,35 @@ class AttendeesRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('att')
-            ->from('App\Entity\Attendees', 'att');
+            ->from('App\Entity\Participant', 'att');
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * Find all attendees.
+     * Find all participant.
      *
      * @return array|null The entity instances or NULL if the entities can not be found.
      */
-    public function countAttendees()
+    public function countParticipants()
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('att')
-            ->from('App\Entity\Attendees', 'att');
+            ->from('App\Entity\Participant', 'att');
         $all = $qb->getQuery()->getResult();
         $counter = 0;
-        foreach ($all as $key => $attendees) {
+        foreach ($all as $key => $participant) {
             $counter++;
-            if (!empty($attendees->getCompanion1())) {
+            if (!empty($participant->getCompanion1())) {
                 $counter++;
             }
-            if (!empty($attendees->getCompanion2())) {
+            if (!empty($participant->getCompanion2())) {
                 $counter++;
             }
-            if (!empty($attendees->getCompanion3())) {
+            if (!empty($participant->getCompanion3())) {
                 $counter++;
             }
-            if (!empty($attendees->getCompanion4())) {
+            if (!empty($participant->getCompanion4())) {
                 $counter++;
             }
         }
@@ -65,13 +65,13 @@ class AttendeesRepository extends ServiceEntityRepository
     }
 
     /**
-     * Truncate attendees table.
+     * Truncate participant table.
      */
     public function truncate()
     {
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $platform   = $connection->getDatabasePlatform();
-        $connection->executeUpdate($platform->getTruncateTableSQL('attendees', true));
+        $connection->executeUpdate($platform->getTruncateTableSQL('participant', true));
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Attendees;
+use App\Entity\Participant;
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
-use App\Repository\AttendeesRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Utils\RandomStringGenerator;
@@ -28,11 +28,11 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * Controller to manage attendees
+ * Controller to manage participant
  *
  * @Route("/api")
  */
-class AttendeesController extends FOSRestController
+class ParticipantController extends FOSRestController
 {
     public function __construct(
         TranslatorInterface $translator,
@@ -47,29 +47,29 @@ class AttendeesController extends FOSRestController
     }
 
     /**
-     * Fetch attendees
+     * Fetch participant
      *
-     * @Rest\Get("/attendees/fetch", name="api_attendees_fetch")
+     * @Rest\Get("/participant/fetch", name="api_participant_fetch")
      * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
-    public function fetchTmp(AttendeesRepository $attendeesRepository)
+    public function fetchTmp(ParticipantRepository $participantRepository)
     {
-        return $attendeesRepository->findAll();
+        return $participantRepository->findAll();
     }
 
     /**
-     * Fetch attendees
+     * Fetch participant
      *
      * @Rest\Get("/participants/fetch", name="api_participants_fetch")
      * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
-    public function fetch(AttendeesRepository $attendeesRepository)
+    public function fetch(ParticipantRepository $participantRepository)
     {
-        return $attendeesRepository->findAll();
+        return $participantRepository->findAll();
     }
 
     /**
@@ -80,19 +80,19 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function setHasBeenScanned(EntityManagerInterface $entityManager, Request $request, Attendees $attendees)
+    public function setHasBeenScanned(EntityManagerInterface $entityManager, Request $request, Participant $participant)
     {
         $hasBeenScanned = $request->request->getBoolean('hasBeenScanned');
-        $attendees->setHasBeenScanned($hasBeenScanned);
-        $entityManager->persist($attendees);
+        $participant->setHasBeenScanned($hasBeenScanned);
+        $entityManager->persist($participant);
         $entityManager->flush();
-        return $attendees;
+        return $participant;
     }
 
     /**
-     * Fetch attendees
+     * Fetch participant
      *
-     * @Rest\Get("/attendees/validate/{token}", name="api_attendees_validate")
+     * @Rest\Get("/participant/validate/{token}", name="api_participant_validate")
      *
      * Responses:
      *    {"status":404,"message": "NOT FOUND"}
@@ -101,16 +101,16 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function validateTmp(AttendeesRepository $attendeesRepository, int $token)
+    public function validateTmp(ParticipantRepository $participantRepository, int $token)
     {
-      $attendees = $attendeesRepository->findOneByToken($token);
-      if ($attendees) {
-        $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+      $participant = $participantRepository->findOneByToken($token);
+      if ($participant) {
+        $hasBeenScannedAmount = $participant->getHasBeenScannedAmount();
         $companions = 0;
-        $companion1 = $attendees->getCompanion1();
-        $companion2 = $attendees->getCompanion2();
-        $companion3 = $attendees->getCompanion3();
-        $companion4 = $attendees->getCompanion4();
+        $companion1 = $participant->getCompanion1();
+        $companion2 = $participant->getCompanion2();
+        $companion3 = $participant->getCompanion3();
+        $companion4 = $participant->getCompanion4();
 
         if (!empty($companion1)){
           $companions++;
@@ -128,11 +128,11 @@ class AttendeesController extends FOSRestController
         if (++$hasBeenScannedAmount > 1 + $companions) {
           return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
         } else {
-          $attendees->setHasBeenScanned(true);
-          $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          $participant->setHasBeenScanned(true);
+          $participant->setHasBeenScannedAmount($hasBeenScannedAmount);
 
           $entityManager = $this->getDoctrine()->getManager();
-          $entityManager->persist($attendees);
+          $entityManager->persist($participant);
           $entityManager->flush();
           return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
         }
@@ -153,16 +153,16 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function validate(AttendeesRepository $attendeesRepository, int $token)
+    public function validate(ParticipantRepository $participantRepository, int $token)
     {
-      $attendees = $attendeesRepository->findOneByToken($token);
-      if ($attendees) {
-        $hasBeenScannedAmount = $attendees->getHasBeenScannedAmount();
+      $participant = $participantRepository->findOneByToken($token);
+      if ($participant) {
+        $hasBeenScannedAmount = $participant->getHasBeenScannedAmount();
         $companions = 0;
-        $companion1 = $attendees->getCompanion1();
-        $companion2 = $attendees->getCompanion2();
-        $companion3 = $attendees->getCompanion3();
-        $companion4 = $attendees->getCompanion4();
+        $companion1 = $participant->getCompanion1();
+        $companion2 = $participant->getCompanion2();
+        $companion3 = $participant->getCompanion3();
+        $companion4 = $participant->getCompanion4();
 
         if (!empty($companion1)){
           $companions++;
@@ -180,11 +180,11 @@ class AttendeesController extends FOSRestController
         if (++$hasBeenScannedAmount > 1 + $companions) {
           return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
         } else {
-          $attendees->setHasBeenScanned(true);
-          $attendees->setHasBeenScannedAmount($hasBeenScannedAmount);
+          $participant->setHasBeenScanned(true);
+          $participant->setHasBeenScannedAmount($hasBeenScannedAmount);
 
           $entityManager = $this->getDoctrine()->getManager();
-          $entityManager->persist($attendees);
+          $entityManager->persist($participant);
           $entityManager->flush();
           return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
         }
@@ -194,9 +194,9 @@ class AttendeesController extends FOSRestController
     }
 
     /**
-     * Deploy attendees
+     * Deploy participant
      *
-     * @Rest\Post("/participant/create", name="api_attendees_create")
+     * @Rest\Post("/participant/create", name="api_participant_create")
      *
      * @return Response
      */
@@ -204,7 +204,7 @@ class AttendeesController extends FOSRestController
       Request $request,
       ValidatorInterface $validator,
       EntityManagerInterface $entityManager,
-      AttendeesRepository $attendeesRepository,
+      ParticipantRepository $participantRepository,
       SettingsRepository $settingsRepository,
       MailerInterface $mailer
     ) {
@@ -255,32 +255,32 @@ class AttendeesController extends FOSRestController
               $companions++;
             }
 
-            $count = $attendeesRepository->countAttendees();
+            $count = $participantRepository->countParticipants();
             if ($count + 1 + $companions > $eventMaximumAmount){
               $error = [
-                  "key" => "attendees.max.attendees.reached",
-                  "message" => $this->translator->trans("attendees.max.attendees.reached"),
+                  "key" => "participant.max.participant.reached",
+                  "message" => $this->translator->trans("participant.max.participant.reached"),
                   "type" => "error"
               ];
               return new JsonResponse([$error], Response::HTTP_BAD_REQUEST);
             }
 
-            $attendees = new Attendees();
-            $attendees->setName($name);
-            $attendees->setEmail($email);
-            $attendees->setToken($token);
-            $attendees->setMobile($mobile);
-            $attendees->setCompanion1($companion1);
-            $attendees->setCompanion2($companion2);
-            $attendees->setCompanion3($companion3);
-            $attendees->setCompanion4($companion4);
-            $attendees->setHasBeenScanned(false);
+            $participant = new Participant();
+            $participant->setName($name);
+            $participant->setEmail($email);
+            $participant->setToken($token);
+            $participant->setMobile($mobile);
+            $participant->setCompanion1($companion1);
+            $participant->setCompanion2($companion2);
+            $participant->setCompanion3($companion3);
+            $participant->setCompanion4($companion4);
+            $participant->setHasBeenScanned(false);
 
             $halfAmountReached = function () use ($count, $companions, $eventMaximumAmount) {
               return $count + 1 + $companions > $eventMaximumAmount / 2;
             };
 
-            $attendeesEmailSubject = function ($eventTimeStr) use ($eventEmailSubject, $eventTopic, $eventDateStr, $eventLocation, $request) {
+            $participantEmailSubject = function ($eventTimeStr) use ($eventEmailSubject, $eventTopic, $eventDateStr, $eventLocation, $request) {
               $pattern = array();
               $pattern[0] = '/{{\s*eventTopic\s*}}/';
               $pattern[1] = '/{{\s*eventTime\s*}}/';
@@ -295,7 +295,7 @@ class AttendeesController extends FOSRestController
               return preg_replace($pattern, $replacement,$eventEmailSubject);
             };
 
-            $attendeesEmailTemplate = function ($eventTimeStr) use ($eventEmailTemplate, $eventTopic, $eventDateStr, $eventLocation, $request, $name) {
+            $participantEmailTemplate = function ($eventTimeStr) use ($eventEmailTemplate, $eventTopic, $eventDateStr, $eventLocation, $request, $name) {
               $pattern = array();
               $pattern[0] = '/{{\s*eventTopic\s*}}/';
               $pattern[1] = '/{{\s*eventTime\s*}}/';
@@ -313,7 +313,7 @@ class AttendeesController extends FOSRestController
             };
 
             $errors = [];
-            $constraintValidator = $validator->validate($attendees, null, ['create']);
+            $constraintValidator = $validator->validate($participant, null, ['create']);
             if (count($constraintValidator) > 0) {
                 foreach ($constraintValidator->getIterator() as $key => $error) {
                     $errors[$key] = [
@@ -338,9 +338,9 @@ class AttendeesController extends FOSRestController
               $email = (new TemplatedEmail())
                    ->from('no-reply@imv-landau.de')
                    ->to(new Address($email))
-                   ->subject($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $attendeesEmailSubject($eventTime2Str) : $attendeesEmailSubject($eventTime1Str))
+                   ->subject($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $participantEmailSubject($eventTime2Str) : $participantEmailSubject($eventTime1Str))
                    ->embedFromPath($newFileName, 'QrCode')
-                   ->html($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $attendeesEmailTemplate($eventTime2Str) : $attendeesEmailTemplate($eventTime1Str))
+                   ->html($eventTime2 && $halfAmountReached() && $eventTime2 !== $eventTime1  ? $participantEmailTemplate($eventTime2Str) : $participantEmailTemplate($eventTime1Str))
                    ->context(['name' => $name]);
                    // this header tells auto-repliers ("email holiday mode") to not
                    // reply to this message because it's an automated email
@@ -352,7 +352,7 @@ class AttendeesController extends FOSRestController
               return new JsonResponse($e, Response::HTTP_BAD_REQUEST);
             }
 
-            $entityManager->persist($attendees);
+            $entityManager->persist($participant);
             $entityManager->flush();
 
             return new QrCodeResponse($result);
@@ -370,23 +370,23 @@ class AttendeesController extends FOSRestController
      *
      * @return Response
      */
-    public function delete(Request $request, Attendees $attendees)
+    public function delete(Request $request, Participant $participant)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($attendees);
+        $entityManager->remove($participant);
         $entityManager->flush();
     }
 
     // /**
-    //  * Delete attendees entry
+    //  * Delete participant entry
     //  *
-    //  * @Rest\Get("/attendees/delete", name="api_attendees_delete_all")
+    //  * @Rest\Get("/participant/delete", name="api_participant_delete_all")
     //  * @IsGranted("ROLE_JWT_AUTHENTICATED")
     //  *
     //  * @return Response
     //  */
-    // public function deleteAll(AttendeesRepository $attendeesRepository)
+    // public function deleteAll(ParticipantRepository $participantRepository)
     // {
-    //   $attendeesRepository->truncate();
+    //   $participantRepository->truncate();
     // }
 }
