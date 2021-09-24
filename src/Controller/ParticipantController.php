@@ -49,19 +49,6 @@ class ParticipantController extends FOSRestController
     /**
      * Fetch participant
      *
-     * @Rest\Get("/participant/fetch", name="api_participant_fetch")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
-     *
-     * @return Response
-     */
-    public function fetchTmp(ParticipantRepository $participantRepository)
-    {
-        return $participantRepository->findAll();
-    }
-
-    /**
-     * Fetch participant
-     *
      * @Rest\Get("/participants/fetch", name="api_participants_fetch")
      * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
@@ -87,58 +74,6 @@ class ParticipantController extends FOSRestController
         $entityManager->persist($participant);
         $entityManager->flush();
         return $participant;
-    }
-
-    /**
-     * Fetch participant
-     *
-     * @Rest\Get("/participant/validate/{token}", name="api_participant_validate")
-     *
-     * Responses:
-     *    {"status":404,"message": "NOT FOUND"}
-     *    {"status":226,"message": "IM_USED"}
-     *    {"status":202,"message": "ACCEPTED"}
-     *
-     * @return Response
-     */
-    public function validateTmp(ParticipantRepository $participantRepository, int $token)
-    {
-      $participant = $participantRepository->findOneByToken($token);
-      if ($participant) {
-        $hasBeenScannedAmount = $participant->getHasBeenScannedAmount();
-        $companions = 0;
-        $companion1 = $participant->getCompanion1();
-        $companion2 = $participant->getCompanion2();
-        $companion3 = $participant->getCompanion3();
-        $companion4 = $participant->getCompanion4();
-
-        if (!empty($companion1)){
-          $companions++;
-        }
-        if (!empty($companion2)){
-          $companions++;
-        }
-        if (!empty($companion3)){
-          $companions++;
-        }
-        if (!empty($companion4)){
-          $companions++;
-        }
-
-        if (++$hasBeenScannedAmount > 1 + $companions) {
-          return new Response(Response::$statusTexts[226], Response::HTTP_IM_USED);
-        } else {
-          $participant->setHasBeenScanned(true);
-          $participant->setHasBeenScannedAmount($hasBeenScannedAmount);
-
-          $entityManager = $this->getDoctrine()->getManager();
-          $entityManager->persist($participant);
-          $entityManager->flush();
-          return new Response(Response::$statusTexts[202], Response::HTTP_ACCEPTED);
-        }
-      } else {
-        return new Response(Response::$statusTexts[404], Response::HTTP_NOT_FOUND);
-      }
     }
 
     /**
@@ -376,17 +311,4 @@ class ParticipantController extends FOSRestController
         $entityManager->remove($participant);
         $entityManager->flush();
     }
-
-    // /**
-    //  * Delete participant entry
-    //  *
-    //  * @Rest\Get("/participant/delete", name="api_participant_delete_all")
-    //  * @IsGranted("ROLE_JWT_AUTHENTICATED")
-    //  *
-    //  * @return Response
-    //  */
-    // public function deleteAll(ParticipantRepository $participantRepository)
-    // {
-    //   $participantRepository->truncate();
-    // }
 }
