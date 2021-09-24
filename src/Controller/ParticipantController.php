@@ -129,7 +129,7 @@ class ParticipantController extends FOSRestController
     }
 
     /**
-     * Deploy participant
+     * Register participant
      *
      * @Rest\Post("/participant/create", name="api_participant_create")
      *
