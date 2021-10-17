@@ -9,7 +9,7 @@ use App\Repository\ParticipantRepository;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  *
  * @Route("/api")
  */
-class SettingsController extends FOSRestController
+class SettingsController extends AbstractFOSRestController
 {
     public function __construct(TranslatorInterface $translator) {
         $this->translator = $translator;
@@ -45,7 +45,6 @@ class SettingsController extends FOSRestController
      * Save settings
      *
      * @Rest\Post("/settings/save", name="api_settings_save")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */

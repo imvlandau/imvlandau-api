@@ -1,16 +1,17 @@
 # Read the documentation:       https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
 fos_rest:
-    routing_loader:
-        default_format:         json
-        include_format:         false
-    body_listener:              true
+    routing_loader:             false
+    body_listener:
+        enabled:                true
     format_listener:
-          rules:
+        enabled:                true
+        rules:
               - { path: '^/', priorities: ['json'], fallback_format: json, prefer_extension: false }
-    param_fetcher_listener:     true
-    access_denied_listener:
-        json:                   true
+    param_fetcher_listener:
+        enabled:                true
     view:
-        view_response_listener: 'force'
+        view_response_listener:
+            enabled:            true
+            force:              true
         formats:
             json:               true

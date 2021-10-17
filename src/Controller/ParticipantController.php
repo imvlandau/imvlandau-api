@@ -10,8 +10,8 @@ use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Utils\RandomStringGenerator;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\FOSRestController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  *
  * @Route("/api")
  */
-class ParticipantController extends FOSRestController
+class ParticipantController extends AbstractFOSRestController
 {
     public function __construct(
         TranslatorInterface $translator,
@@ -50,7 +50,6 @@ class ParticipantController extends FOSRestController
      * Fetch participant
      *
      * @Rest\Get("/participants/fetch", name="api_participants_fetch")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -63,7 +62,6 @@ class ParticipantController extends FOSRestController
      * Set hasBeenScanned flag
      *
      * @Rest\Post("/participant/{id}/setHasBeenScanned", name="api_participant_setHasBeenScanned")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */
@@ -301,7 +299,6 @@ class ParticipantController extends FOSRestController
      * Delete participant entry
      *
      * @Rest\Delete("/participant/delete/{id}", name="api_participant_delete")
-     * @IsGranted("ROLE_JWT_AUTHENTICATED")
      *
      * @return Response
      */

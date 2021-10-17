@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Exception\ApiProblem;
 use App\Exception\ApiProblemException;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-class ApiBaseController extends FOSRestController
+class ApiBaseController extends AbstractFOSRestController
 {
 
 }
