@@ -6,7 +6,7 @@ use App\Exception\ApiProblem;
 use App\Exception\ApiProblemExceptionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -23,9 +23,9 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function processException(GetResponseForExceptionEvent $event)
+    public function processException(ExceptionEvent $event)
     {
-        $ex = $event->getException();
+        $ex = $event->getThrowable();
         if ($ex instanceof ApiProblemExceptionInterface) {
             $apiProblem = $ex->getApiProblem();
             $statusCode = $apiProblem->getStatusCode();
