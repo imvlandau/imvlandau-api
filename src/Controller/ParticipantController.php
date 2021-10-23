@@ -50,6 +50,7 @@ class ParticipantController extends AbstractFOSRestController
      * Fetch participant
      *
      * @Rest\Get("/participants/fetch", name="api_participants_fetch")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return Response
      */
@@ -62,6 +63,7 @@ class ParticipantController extends AbstractFOSRestController
      * Set hasBeenScanned flag
      *
      * @Rest\Post("/participant/{id}/setHasBeenScanned", name="api_participant_setHasBeenScanned")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return Response
      */
@@ -299,6 +301,7 @@ class ParticipantController extends AbstractFOSRestController
      * Delete participant entry
      *
      * @Rest\Delete("/participant/delete/{id}", name="api_participant_delete")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      *
      * @return Response
      */

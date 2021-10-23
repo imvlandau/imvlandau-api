@@ -45,6 +45,7 @@ class SettingsController extends AbstractFOSRestController
      * Save settings
      *
      * @Rest\Post("/settings/save", name="api_settings_save")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @return Response
      */

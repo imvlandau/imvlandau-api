@@ -7,11 +7,6 @@ security:
 
     providers:
         users_in_memory: { memory: null }
-        my_memory_provider:
-          memory:
-            users:
-              # php bin/console security:hash-password --no-interaction admin
-              admin: { roles: [ROLE_ADMIN], password: '$2y$13$J.i4IloLQzfqdoP4t0w34Oud/ETpnc681hILW36hN.Ng5.LkZsli2' } # password: admin
 
     firewalls:
         dev:
@@ -20,16 +15,12 @@ security:
         main:
             lazy: true
             provider: users_in_memory
-        # main:
-        #     http_basic:
-        #         realm: Stop
-        #     stateless: true
-        #     lazy: true
-        #     provider: my_memory_provider
+            custom_authenticator: App\Security\Auth0Authenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/api/settings, roles: [ROLE_ADMIN] }
         # - { path: ^/api/participants, roles: [ROLE_ADMIN] }
         # - { path: ^/admin, roles: ROLE_ADMIN }

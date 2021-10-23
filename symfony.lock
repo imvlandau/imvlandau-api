@@ -139,6 +139,9 @@
     "psr/log": {
         "version": "1.1.4"
     },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.6",
         "recipe": {
