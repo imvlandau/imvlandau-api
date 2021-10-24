@@ -2,9 +2,9 @@
 
 namespace App\Security;
 
-use Auth0\SDK\Helpers\JWKFetcher;
-use Auth0\SDK\Helpers\Tokens\AsymmetricVerifier;
-use Auth0\SDK\Helpers\Tokens\TokenVerifier;
+use Auth0\SDK\Auth0;
+use Auth0\SDK\Configuration\SdkConfiguration;
+use Auth0\SDK\Utility\HttpResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -27,9 +27,26 @@ class Auth0Authenticator extends AbstractAuthenticator
      */
     protected $logger;
 
+    /**
+     * @var SdkConfiguration
+     */
+    protected $configuration;
+
+    /**
+     * @var Auth0
+     */
+    protected $auth0;
+
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->configuration = new SdkConfiguration([
+          'strategy' => 'api',
+          'domain' => $_SERVER['AUTH0_DOMAIN'],
+          'audience' => [$_SERVER['AUTH0_AUDIENCE']],
+          'clientId' => $_SERVER['AUTH0_CLIENT_ID'],
+        ]);
+        $this->auth0 = new Auth0($this->configuration);
     }
 
     public function supports(Request $request): ?bool
@@ -45,31 +62,31 @@ class Auth0Authenticator extends AbstractAuthenticator
             throw new CustomUserMessageAuthenticationException('Authorization token missing');
         }
 
-        $tokenIssuer = 'https://'.$_SERVER['AUTH0_DOMAIN'].'/';
-        $tokenAudience = $_SERVER['AUTH0_AUDIENCE'];
-
-        $psr6Cache = new FilesystemAdapter();
-        $psr16Cache = new Psr16Cache($psr6Cache);
-
-        $jwksFetcher = new JWKFetcher($psr16Cache);
-        $jwks = $jwksFetcher->getKeys($tokenIssuer . '.well-known/jwks.json');
-        $signatureVerifier = new AsymmetricVerifier($jwks);
-        $tokenVerifier = new TokenVerifier($tokenIssuer, $tokenAudience, $signatureVerifier);
-
         try {
-            $decodedToken = $tokenVerifier->verify($jwt);
-            $userId = $decodedToken['sub'];
-        } catch (\Exception $e) {
+            $token = $this->auth0->decode($jwt)->toArray();
+            // $userId = $token->getSubject();
+            $userId = $token['sub'];
+            $permissions = $token['permissions'];
+
+            // $response = $this->auth0->authentication()->userInfo($jwt);
+            // $requestBody = json_decode($response->getBody()->__toString(), true);
+            // echo "<pre>" . print_r($requestBody, true) . "</pre>";
+            // if (HttpResponse::wasSuccessful($response)) {
+            //     $user = HttpResponse::decodeContent($response);
+            //     echo "<pre>" . print_r($user, true) . "</pre>";
+            // }
+            // exit;
+        } catch (\Auth0\SDK\Exception\InvalidTokenException $exception) {
             $this->logger->error($e->getMessage());
-            throw new CustomUserMessageAuthenticationException('Invalid token');
+            throw new CustomUserMessageAuthenticationException('Unable to decode access token');
         }
 
         if (!$userId) {
             throw new CustomUserMessageAuthenticationException('User ID could not be found in token');
         }
 
-        return new SelfValidatingPassport(new UserBadge($userId, function ($userIdentifier) use ($decodedToken) {
-            return new InMemoryUser($userIdentifier, NULL, $decodedToken['permissions']);
+        return new SelfValidatingPassport(new UserBadge($userId, function ($userIdentifier) use ($permissions) {
+            return new InMemoryUser($userIdentifier, NULL, $permissions);
         }));
     }
 
