@@ -6,7 +6,10 @@ security:
         Symfony\Component\Security\Core\User\InMemoryUser: 'auto'
 
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
 
     firewalls:
         dev:
@@ -14,7 +17,7 @@ security:
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
             custom_authenticator: App\Security\Auth0Authenticator
 
     # Easy way to control access for large sections of your site

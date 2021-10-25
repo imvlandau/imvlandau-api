@@ -2,9 +2,12 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
+use App\Entity\User;
 use Auth0\SDK\Auth0;
 use Auth0\SDK\Configuration\SdkConfiguration;
 use Auth0\SDK\Utility\HttpResponse;
+use Auth0\SDK\Exception\InvalidTokenException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -13,12 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Auth0Authenticator extends AbstractAuthenticator
 {
@@ -26,6 +30,16 @@ class Auth0Authenticator extends AbstractAuthenticator
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
 
     /**
      * @var SdkConfiguration
@@ -37,9 +51,11 @@ class Auth0Authenticator extends AbstractAuthenticator
      */
     protected $auth0;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, UserRepository $userRepository, EntityManagerInterface $em)
     {
         $this->logger = $logger;
+        $this->userRepository = $userRepository;
+        $this->em = $em;
         $this->configuration = new SdkConfiguration([
           'strategy' => 'api',
           'domain' => $_SERVER['AUTH0_DOMAIN'],
@@ -64,29 +80,41 @@ class Auth0Authenticator extends AbstractAuthenticator
 
         try {
             $token = $this->auth0->decode($jwt)->toArray();
-            // $userId = $token->getSubject();
-            $userId = $token['sub'];
-            $permissions = $token['permissions'];
-
-            // $response = $this->auth0->authentication()->userInfo($jwt);
-            // $requestBody = json_decode($response->getBody()->__toString(), true);
-            // echo "<pre>" . print_r($requestBody, true) . "</pre>";
-            // if (HttpResponse::wasSuccessful($response)) {
-            //     $user = HttpResponse::decodeContent($response);
-            //     echo "<pre>" . print_r($user, true) . "</pre>";
-            // }
-            // exit;
-        } catch (\Auth0\SDK\Exception\InvalidTokenException $exception) {
+        } catch (InvalidTokenException $e) {
             $this->logger->error($e->getMessage());
             throw new CustomUserMessageAuthenticationException('Unable to decode access token');
         }
 
-        if (!$userId) {
+        if (!$token['sub']) {
             throw new CustomUserMessageAuthenticationException('User ID could not be found in token');
         }
 
-        return new SelfValidatingPassport(new UserBadge($userId, function ($userIdentifier) use ($permissions) {
-            return new InMemoryUser($userIdentifier, NULL, $permissions);
+        $user = $this->userRepository->loadUserByIdentifier($token['sub']);
+        // if user doesn't exist in database create a new one
+        if ($user === null){
+          $response = $this->auth0->authentication()->userInfo($jwt);
+          // $requestBody = json_decode($response->getBody()->__toString(), true);
+          if (HttpResponse::wasSuccessful($response)) {
+            $userFromAuth0 = HttpResponse::decodeContent($response);
+            if (!$userFromAuth0['email_verified']){
+              throw new CustomUserMessageAuthenticationException('Email not yet verified. Please verify first.');
+            }
+            $newUser = new User();
+            $newUser->setSub($userFromAuth0['sub']);
+            $newUser->setEmail($userFromAuth0['email']);
+            $newUser->setRoles($token['permissions']);
+            $this->em->persist($newUser);
+            $this->em->flush();
+          } else {
+            throw new CustomUserMessageAuthenticationException('User not found');
+          }
+        } else {
+          $newUser = $user;
+          $newUser->setRoles($token['permissions']);
+        }
+
+        return new SelfValidatingPassport(new UserBadge($token['sub'], function ($userId) use ($newUser) {
+            return $newUser;
         }));
     }
 

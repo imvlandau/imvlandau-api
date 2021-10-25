@@ -7,6 +7,7 @@ parameters:
     locale: de
     supported_locales: ['de', 'en', 'ps']
     randomStringGeneratorAlphabet: "2346789"
+    property: sub
 
 services:
     # default configuration for services in *this* file
@@ -36,3 +37,7 @@ services:
     App\Controller\ParticipantController:
         arguments:
             $randomStringGeneratorAlphabet: '%randomStringGeneratorAlphabet%'
+
+    App\Repository\UserRepository:
+        arguments:
+            $property: '%property%'
