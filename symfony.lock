@@ -109,6 +109,15 @@
             "config/packages/fos_rest.yaml"
         ]
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "2.1.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
@@ -139,8 +148,8 @@
     "psr/log": {
         "version": "1.1.4"
     },
-    "psr/simple-cache": {
-        "version": "1.0.1"
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.6",
